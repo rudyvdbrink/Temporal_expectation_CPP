@@ -31,7 +31,7 @@ addpath(genpath(funcdir))
 %16) Accuracy on long interval, invalidly cued, difficult
 
 %17) False alarm rate on non-catch trials
-%18) False alarm rate on catch trials
+%18) False alarm rate on catch trials 
 
 % Each row in the data matrix is a participant.
 
