@@ -97,13 +97,6 @@ hold on
 box off
 plot(t,squeeze(mean(squeeze(mean(mean(tfr(:,1:2,f2plot,:),2),3)))),'k') %plot valid condition
 plot(t,squeeze(mean(squeeze(mean(mean(tfr(:,3:4,f2plot,:),2),3)))),'r') %plot invalid condition
-% h = zeros(1,length(t)); %initialize
-% for ti = 1:length(t) %loop over time points and permutation test 
-%     h(ti) = permtest(squeeze(mean(mean(tfr(:,1:2,f2plot,ti),2),3)),squeeze(mean(mean(tfr(:,3:4,f2plot,ti),2),3)),10000,0.05,'left');
-%     if h(ti)
-%         plot(t(ti),140,'k.') %if this time point was significant, plot a black dot
-%     end        
-% end
 h = permtestn(squeeze(mean(mean(tfr(:,1:2,f2plot,:),2),3)),squeeze(mean(mean(tfr(:,3:4,f2plot,:),2),3)),10000,0.05,'left');
 plot(t(h),140,'k.')
 set(gca,'tickdir','out','fontsize',18)

@@ -67,10 +67,6 @@ set(gca,'tickdir','out','fontsize',18,'linewidth',1)
 box off
 
 %compare each sample to zero across participants with permutation testing
-% p = nan(size(stime));
-% for ti = 1:length(rtime)
-%     [~,p(ti)] = permtest(squeeze(mean(CPP(:,9:end,ti),2)),0,npermutes);
-% end
 [~, p] = permtestn(squeeze(mean(CPP(:,9:end,:),2)),0,npermutes);
 h = fdr(p,0.05); %FDR correct
 plot(stime(logical(h)),ones(sum(h),1)*-5,'k.')
@@ -91,10 +87,6 @@ set(gca,'tickdir','out','fontsize',18,'linewidth',1)
 box off
 
 %compare each sample to zero across participants with permutation testing
-% p = nan(size(rtime));
-% for ti = 1:length(rtime)
-%     [~,p(ti)] = permtest(squeeze(mean(CPP(:,1:8,ti),2)),0,npermutes);
-% end
 [~, p] = permtestn(squeeze(mean(CPP(:,1:8,:),2)),0,npermutes);
 h = fdr(p,0.05); %FDR correct
 plot(rtime(logical(h)),ones(sum(h),1)*-5,'k.')
