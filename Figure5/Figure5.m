@@ -84,10 +84,10 @@ ylim([5 20])
 ylabel('Frequency (Hz)')
 xlabel('Peri-stimulus time (ms)')
 
-% [~, p] = permtestn(squeeze(mean(tfr(:,1:2,:,:),2)),squeeze(mean(tfr(:,3:4,:,:),2)),10000,0.05,'left');
-% h = fdr(p,0.05);
-% hold on
-% contour(h,1,'linecolor','k')
+[~, p] = permtestn(squeeze(mean(tfr(:,1:2,:,:),2)),squeeze(mean(tfr(:,3:4,:,:),2)),100000,0.05,'left');
+h = fdr(p,0.05);
+hold on
+contour(h,1,'linecolor','k')
 
 %% Make line plot of alpha power in the individual conditions
 
@@ -97,7 +97,7 @@ hold on
 box off
 plot(t,squeeze(mean(squeeze(mean(mean(tfr(:,1:2,f2plot,:),2),3)))),'k') %plot valid condition
 plot(t,squeeze(mean(squeeze(mean(mean(tfr(:,3:4,f2plot,:),2),3)))),'r') %plot invalid condition
-h = permtestn(squeeze(mean(mean(tfr(:,1:2,f2plot,:),2),3)),squeeze(mean(mean(tfr(:,3:4,f2plot,:),2),3)),10000,0.05,'left');
+h = permtestn(squeeze(mean(mean(tfr(:,1:2,f2plot,:),2),3)),squeeze(mean(mean(tfr(:,3:4,f2plot,:),2),3)),npermutes,0.05,'left');
 plot(t(h),140,'k.')
 set(gca,'tickdir','out','fontsize',18)
 xlim([-600 800])
