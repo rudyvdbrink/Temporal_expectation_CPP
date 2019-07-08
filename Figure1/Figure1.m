@@ -20,7 +20,6 @@ addpath(genpath(funcdir))
 %6) RT on long interval, validly cued, difficult
 %7) RT on long interval, invalidly cued, easy
 %8) RT on long interval, invalidly cued, difficult
-
 %9)  Accuracy on short interval, validly cued, easy
 %10) Accuracy on short interval, validly cued, difficult
 %11) Accuracy on short interval, invalidly cued, easy
@@ -29,7 +28,6 @@ addpath(genpath(funcdir))
 %14) Accuracy on long interval, validly cued, difficult
 %15) Accuracy on long interval, invalidly cued, easy
 %16) Accuracy on long interval, invalidly cued, difficult
-
 %17) False alarm rate on non-catch trials
 %18) False alarm rate on catch trials 
 

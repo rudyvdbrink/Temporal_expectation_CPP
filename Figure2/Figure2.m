@@ -8,12 +8,11 @@ homedir = mfilename('fullpath');
 funcdir = [homedir(1:end-15) 'functions'];
 addpath(genpath(funcdir)); %folder with supporting functions
 addpath(genpath(homedir(1:end-7))); %folder where this scrip is stored
-%%
+%% load data
 
-%modeldata contains the model parameters of the individual participants.
+%Modeldata contains the model parameters of the individual participants.
 %this variable has N rows (participants) and 9 columns (variables). The
 %variables are as follows:
-%
 %1) v (drift rate) on catch trials
 %2) v (drift rate) on valid easy trials
 %3) v (drift rate) on valid difficult trials
@@ -24,8 +23,8 @@ addpath(genpath(homedir(1:end-7))); %folder where this scrip is stored
 %8) Ter (non decision time) on invalid trials
 %9) Threshold
 
-
-% The matrix 'bhvdat' contains the behavioral data, and has 18 columns:
+%The matrix 'bhvdat' contains the behavioral data, and has N rows 
+%(participants) and 18 columns:
 %1) RT on short interval, validly cued, easy
 %2) RT on short interval, validly cued, difficult
 %3) RT on short interval, invalidly cued, easy
@@ -34,7 +33,6 @@ addpath(genpath(homedir(1:end-7))); %folder where this scrip is stored
 %6) RT on long interval, validly cued, difficult
 %7) RT on long interval, invalidly cued, easy
 %8) RT on long interval, invalidly cued, difficult
-
 %9)  Accuracy on short interval, validly cued, easy
 %10) Accuracy on short interval, validly cued, difficult
 %11) Accuracy on short interval, invalidly cued, easy
@@ -43,11 +41,10 @@ addpath(genpath(homedir(1:end-7))); %folder where this scrip is stored
 %14) Accuracy on long interval, validly cued, difficult
 %15) Accuracy on long interval, invalidly cued, easy
 %16) Accuracy on long interval, invalidly cued, difficult
-
 %17) False alarm rate on non-catch trials
 %18) False alarm rate on catch trials 
 
-% Each row in the data matrix is a participant.
+% Each row in the bhvdat matrix is a participant.
 
 load data.mat
 
@@ -56,20 +53,15 @@ load data.mat
 c = 1.0;
 simdata = zeros(size(modeldata,1),2,2);
 for subi = 1:size(modeldata,1)
-
     resp = diffProcess('c',c,'a',modeldata(subi,end),'v',modeldata(subi,2),'Ter',modeldata(subi,7));
-    simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, valid, easy
-    
+    simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, valid, easy    
     resp = diffProcess('c',c,'a',modeldata(subi,end),'v',modeldata(subi,3),'Ter',modeldata(subi,7));
-    simdata(subi,1,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, valid, difficult
-    
+    simdata(subi,1,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, valid, difficult    
     resp = diffProcess('c',c,'a',modeldata(subi,end),'v',modeldata(subi,4),'Ter',modeldata(subi,8));
-    simdata(subi,2,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, invalid, easy
-    
+    simdata(subi,2,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, invalid, easy    
     resp = diffProcess('c',c,'a',modeldata(subi,end),'v',modeldata(subi,5),'Ter',modeldata(subi,8));
     simdata(subi,2,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, invalid, difficult
 end
-
 simdata = simdata * 1000; %scale to ms
 
 %% Make scatter plot of model and data
@@ -80,14 +72,12 @@ subplot(2,3,1)
 plotcolors = parula(4);
 r = zeros(4,1);
 p = zeros(size(r));
-for condi = 1:4
-    
+for condi = 1:4    
     plot(squeeze(simdata(:,condi)),bhvdat(:,condi),'o','color',plotcolors(condi,:),'MarkerFaceColor',plotcolors(condi,:))
     hold on
-    [r(condi), p(condi)] = corr(squeeze(simdata(:,condi)),bhvdat(:,condi));
-    
-    P = polyfit(squeeze(simdata(:,condi)),bhvdat(:,condi),1); %least squares regression line
-    y = squeeze(simdata(:,condi)).*P(1) + P(2);
+    [r(condi), p(condi)] = corr(squeeze(simdata(:,condi)),bhvdat(:,condi)); %correlate data and model RT    
+    P = polyfit(squeeze(simdata(:,condi)),bhvdat(:,condi),1);
+    y = squeeze(simdata(:,condi)).*P(1) + P(2); %least squares regression line
     plot(squeeze(simdata(:,condi)),y,'-','color',plotcolors(condi,:),'LineWidth',2)        
 end
 
