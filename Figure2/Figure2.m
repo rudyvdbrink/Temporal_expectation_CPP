@@ -55,15 +55,15 @@ numtr   = 10000;
 simdata = zeros(size(modeldata,1),2,2);
 for subi = 1:size(modeldata,1)
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,2),'Ter',modeldata(subi,7));
-    simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, valid, easy    
+    simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %valid, easy    
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,3),'Ter',modeldata(subi,7));
-    simdata(subi,1,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, valid, difficult    
+    simdata(subi,1,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %valid, difficult    
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,4),'Ter',modeldata(subi,8));
-    simdata(subi,2,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, invalid, easy    
+    simdata(subi,2,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %invalid, easy    
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,5),'Ter',modeldata(subi,8));
-    simdata(subi,2,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, invalid, difficult
+    simdata(subi,2,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %invalid, difficult
 end
-simdata = simdata * 1000; %scale to ms
+simdata = simdata * 1000; %scale to ms (instead of seconds)
 
 %% Make scatter plot of model and data
 
@@ -77,6 +77,7 @@ for condi = 1:4
     plot(squeeze(simdata(:,condi)),bhvdat(:,condi),'o','color',plotcolors(condi,:),'MarkerFaceColor',plotcolors(condi,:))
     hold on
     [r(condi), p(condi)] = corr(squeeze(simdata(:,condi)),bhvdat(:,condi)); %correlate data and model RT    
+    disp(['Correlation between model and data for ' conditions{condi} ' trials: r = ' num2str(r(condi)) ', p = ' num2str(p(condi))])
     P = polyfit(squeeze(simdata(:,condi)),bhvdat(:,condi),1);
     y = squeeze(simdata(:,condi)).*P(1) + P(2); %least squares regression line
     plot(squeeze(simdata(:,condi)),y,'-','color',plotcolors(condi,:),'LineWidth',2)        
@@ -97,7 +98,7 @@ set(gca,'tickdir','out','fontsize',18,'linewidth',1)
 box off
 xlabel('RT model (ms)')
 ylabel('RT data (ms)')
-
+  
 %% load the posteriors, make histograms, and calculate p-values
 
 alpha = 0.5; %transparancy of the histograms
