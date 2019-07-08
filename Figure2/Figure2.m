@@ -48,18 +48,19 @@ addpath(genpath(homedir(1:end-7))); %folder where this scrip is stored
 
 load data.mat
 
-%% Simulate behavioral data using the model parameters
+%% Simulate behavioral data using the model parameters (this can take a few minutes)
 
-c = 1.0;
+c       = 1.0;
+numtr   = 10000;
 simdata = zeros(size(modeldata,1),2,2);
 for subi = 1:size(modeldata,1)
-    resp = diffProcess('c',c,'a',modeldata(subi,end),'v',modeldata(subi,2),'Ter',modeldata(subi,7));
+    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,2),'Ter',modeldata(subi,7));
     simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, valid, easy    
-    resp = diffProcess('c',c,'a',modeldata(subi,end),'v',modeldata(subi,3),'Ter',modeldata(subi,7));
+    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,3),'Ter',modeldata(subi,7));
     simdata(subi,1,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, valid, difficult    
-    resp = diffProcess('c',c,'a',modeldata(subi,end),'v',modeldata(subi,4),'Ter',modeldata(subi,8));
+    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,4),'Ter',modeldata(subi,8));
     simdata(subi,2,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, invalid, easy    
-    resp = diffProcess('c',c,'a',modeldata(subi,end),'v',modeldata(subi,5),'Ter',modeldata(subi,8));
+    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,5),'Ter',modeldata(subi,8));
     simdata(subi,2,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %correct RT, invalid, difficult
 end
 simdata = simdata * 1000; %scale to ms
@@ -133,7 +134,7 @@ set(gca,'tickdir','out','fontsize',18,'linewidth',1)
 xlabel('Parameter estimate (a.u.)')
 ylabel('Frequency of occurance (%)')
 
-%get p-value
+%validity effect on non-decision time
 p = sum(tvalid > tinvalid) / length(tvalid);
 text(0.275, 7, ['p = ' num2str(round(p*1000)/1000)],'FontSize',15)
 
