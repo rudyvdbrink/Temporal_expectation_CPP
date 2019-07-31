@@ -104,8 +104,8 @@ ylabel('RT data (ms)')
 alpha = 0.5; %transparancy of the histograms
 
 %load the posterior distributions
-tvalid   = dlmread('tvalid.csv'); %non-decision time on valid trials
-tinvalid = dlmread('tinvalid.csv'); %non-decision time on invalid trials
+tvalid       = dlmread('tvalid.csv'); %non-decision time on valid trials
+tinvalid     = dlmread('tinvalid.csv'); %non-decision time on invalid trials
 veasyvalid   = dlmread('veasyvalid.csv'); %drift rate on valid easy trials
 veasyinvalid = dlmread('veasyinvalid.csv'); %drift rate on invalid easy trials
 vhardvalid   = dlmread('vhardvalid.csv'); %drift rate on valid difficult trials
