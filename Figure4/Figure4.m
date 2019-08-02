@@ -203,7 +203,7 @@ p = sum(diff <= permdist(4,:)) / size(permdist,2); %compute p value
 title(['p = ' num2str(p)])
 
 
-%% bar plots of onset, onset variability, and slope, computet at the single trial level
+%% bar plots of onset, onset variability, and slope, computed at the single trial level
 
 figure
 
