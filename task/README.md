@@ -21,7 +21,7 @@ Output matrix 'data' has 10 columns, with the following variables:
 
 Condition information: First number (short/long); Second number (valid/invalid); Third number (easy/difficult).
 
-10 = catch
+10 = catch \n
 100 = short interval, validly cued, easy.
 
 101 = short interval, validly cued, difficult.
