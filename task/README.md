@@ -22,22 +22,21 @@ Output matrix 'data' has 10 columns, with the following variables:
 condition information: First number (short/long); Second number (valid/invalid); Third number (easy/difficult)
 10 = catch
 
-100 = short interval, validly cued, easy
+100 = short interval, validly cued, easy.
+101 = short interval, validly cued, difficult.
+110 = short interval, invalidly cued, easy.
+111 = short interval, invalidly cued, difficult.
 
-101 = short interval, validly cued, difficult
-110 = short interval, invalidly cued, easy
-111 = short interval, invalidly cued, difficult
-
-200 = long interval, validly cued, easy
-201 = long interval, validly cued, difficult
-210 = long interval, invalidly cued, easy
-211 = long interval, invalidly cued, difficult
+200 = long interval, validly cued, easy.
+201 = long interval, validly cued, difficult.
+210 = long interval, invalidly cued, easy.
+211 = long interval, invalidly cued, difficult.
 
 
 EEG trigger information:
 
 stimulus markers:
- trial start is indicated by trigger same as condition+30 (see above)
+ trial start is indicated by trigger same as condition+30 (see above).
  6: cue onset
  target onset is indicated by trigger condition (see above)
 
