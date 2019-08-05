@@ -26,7 +26,7 @@ Output matrix 'data' has 10 columns, with the following variables:
 - (10) time on block
 - (11) cue number (1 = low, 2 = high)
 
-Condition information: First number (short/long); Second number (valid/invalid); Third number (easy/difficult).
+Condition information: First number (short/long); Second number (valid/invalid); Third number (easy/difficult). In this case, 'long interval' means that the target was presented  after the long interval, so 'invalid long interval' trials were trials on which the cue signalled a short interval, but the target was presented later.
 
 - 10 = catch 
 - 100 = short interval, validly cued, easy.
