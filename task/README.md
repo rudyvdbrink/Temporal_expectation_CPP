@@ -7,7 +7,7 @@ This will prompt an input dialogue where you can set participant number, task (1
 Behavioral data are saved per individual block as a tab separated text file, and with all blocks concatinated as a matlab .mat file. 
 
 Output matrix 'data' has 10 columns, with the following variables:
-- 1)  trial number within block
+- (1)  trial number within block
 - 2)  block number
 - 3)  condition (see below)
 - 4)  target position (1, left; -1, right)
