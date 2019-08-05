@@ -24,13 +24,19 @@ condition information: First number (short/long); Second number (valid/invalid);
 10 = catch
 
 100 = short interval, validly cued, easy.
+
 101 = short interval, validly cued, difficult.
+
 110 = short interval, invalidly cued, easy.
+
 111 = short interval, invalidly cued, difficult.
 
 200 = long interval, validly cued, easy.
+
 201 = long interval, validly cued, difficult.
+
 210 = long interval, invalidly cued, easy.
+
 211 = long interval, invalidly cued, difficult.
 
 
@@ -52,4 +58,4 @@ feedback triggers:
   5: correct reject trial
 
 block markers:
-60: start of real task
+60: start of real task (presented after the practice is complete)
