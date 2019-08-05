@@ -23,6 +23,7 @@ condition information: First number (short/long); Second number (valid/invalid);
 10 = catch
 
 100 = short interval, validly cued, easy
+
 101 = short interval, validly cued, difficult
 110 = short interval, invalidly cued, easy
 111 = short interval, invalidly cued, difficult
