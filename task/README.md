@@ -1,6 +1,6 @@
 # Behavioral task for van den Brink et al (2019)
 
-To run the task, run task.m in the folder 'scripts'.
+To run the task, run task.m in the folder 'scripts'. To run this, you need MATLAB and the Psychtoolbox (http://psychtoolbox.org/).
 
 This will prompt an input dialogue where you can set a number of releveant variables:
 - participant number
