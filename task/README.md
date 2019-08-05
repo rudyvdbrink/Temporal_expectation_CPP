@@ -19,7 +19,8 @@ Output matrix 'data' has 10 columns, with the following variables:
 10) time on block
 11) cue number (1 = low, 2 = high)
 
-condition information: First number (short/long); Second number (valid/invalid); Third number (easy/difficult)
+condition information: First number (short/long); Second number (valid/invalid); Third number (easy/difficult).
+
 10 = catch
 
 100 = short interval, validly cued, easy.
