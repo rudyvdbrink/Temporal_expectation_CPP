@@ -48,6 +48,24 @@ load data.mat
 %number of iterations for permutation testing
 npermutes = 10000;
 
+%% fit a two-part line segment to the CPP, per subject and RT bin
+
+binonset = zeros(size(CPP_RT,1),size(CPP_RT,4));
+binslope = zeros(size(CPP_RT,1),size(CPP_RT,4));
+for subi = 1:size(CPP_RT,1)
+    for bini = 1:size(CPP_RT,4)
+        subRT  = squeeze(mean(RTs(subi,:,bini),2))*1000;
+        subCPP = squeeze(mean(CPP_RT(subi,9:end,:,bini),2));        
+        %get indices and data of window for fitting (here, ranging from -200 ms until the peak CPP)
+        [~,idx(1)] = min(abs(stime - -200)); %start of fitting window
+        [~,idx(2)] = max(subCPP); %end of fitting window
+        cdata = [stime(idx(1):idx(2)); subCPP(idx(1):idx(2))']; %data used for fitting (so only time and the part of the CPP that falls within the window)        
+        params_out = fminsearchbnd(@(params) fitCPP(params,cdata),[0.1 0.5],[0 0],[600 inf],options);  % running minimisation routine
+        binonset(subi,bini) = params_out(1); %this is estimated CPP onset (in ms)
+        binslope(subi,bini) = params_out(2); %this is estimated CPP slope
+    end
+end
+
 %% Stimulus locked CPP
 
 figure
@@ -117,6 +135,24 @@ end
 xlim([-200 800])
 ylim([-10 30])
 
+%plot onsets
+eb = std(binonset) / sqrt(size(binonset,1)); %get error bars
+plot( squeeze(mean(binonset(:,1))) - eb(1) : squeeze(mean(binonset(:,1))) + eb(1), zeros(size(squeeze(mean(binonset(:,1))) - eb(1) : squeeze(mean(binonset(:,1))) + eb(1)))-2 , 'color',plotcolors(1,:),'LineWidth',2)
+plot(squeeze(mean(binonset(:,1))),-2,'o','MarkerFaceColor',plotcolors(1,:))
+plot( squeeze(mean(binonset(:,2))) - eb(2) : squeeze(mean(binonset(:,2))) + eb(2), zeros(size(squeeze(mean(binonset(:,2))) - eb(2) : squeeze(mean(binonset(:,2))) + eb(2)))-5 , 'color',plotcolors(2,:),'LineWidth',2)
+plot(squeeze(mean(binonset(:,2))),-5,'o','MarkerFaceColor',plotcolors(2,:))
+plot( squeeze(mean(binonset(:,3))) - eb(3) : squeeze(mean(binonset(:,3))) + eb(3), zeros(size(squeeze(mean(binonset(:,3))) - eb(3) : squeeze(mean(binonset(:,3))) + eb(3)))-8 , 'color',plotcolors(3,:),'LineWidth',2)
+plot(squeeze(mean(binonset(:,3))),-8,'o','MarkerFaceColor',plotcolors(3,:))
+
+%compare and report stats
+[~, p] = permtest(binonset(:,1),binonset(:,2),npermutes);
+disp(['Onset: fast RT vs medium RT bin, p = ' num2str(p) ])
+[~, p] = permtest(binonset(:,1),binonset(:,3),npermutes);
+disp(['Onset: fast RT vs slow RT bin, p = ' num2str(p) ])
+text(250,-5,['p = ' num2str(p)])
+[~, p] = permtest(binonset(:,2),binonset(:,3),npermutes);
+disp(['Onset: medium RT vs slow RT bin, p = ' num2str(p) ])
+
 %response locked
 subplot(2,4,7)
 hold on
@@ -132,15 +168,42 @@ end
 xlim([-400 100])
 ylim([-10 30])
 
-%% box plot of RT
 
-%boxplot of the RTs
-subplot(2,4,8)
-boxplot(squeeze(mean(RTs,2)),'color',plotcolors)
-set(gca,'tickdir','out','xtick',1:3,'xticklabel',{'fast','medium','slow'},'fontsize',18)
+%% bar plot of CPP onset
+subplot(2,5,10)
+hold on
+% bar(squeeze(mean(binslope))),wse(binslope,1);
+
+bar(1,squeeze(mean(binslope(:,1))),'FaceColor',plotcolors(1,:),'EdgeColor','none')
+bar(2,squeeze(mean(binslope(:,2))),'FaceColor',plotcolors(2,:),'EdgeColor','none')
+bar(3,squeeze(mean(binslope(:,3))),'FaceColor',plotcolors(3,:),'EdgeColor','none')
+
+
+wse(binslope,1);
+
+
+%compare and report stats
+[~, p] = permtest(binslope(:,1),binslope(:,2),npermutes);
+disp(['Slope: fast RT vs medium RT bin, p = ' num2str(p) ])
+[~, p] = permtest(binslope(:,1),binslope(:,3),npermutes);
+disp(['Slope: fast RT vs slow RT bin, p = ' num2str(p) ])
+text(2,0.14,['p = ' num2str(p)])
+[~, p] = permtest(binslope(:,2),binslope(:,3),npermutes);
+disp(['Slope: medium RT vs slow RT bin, p = ' num2str(p) ])
+
+set(gca,'tickdir','out','xtick',[],'fontsize',18)
 box off
-ylabel('Response time (s)')
+ylabel('CPP slope (\muV / m^2 / T_s)')
 
+%% box plot of RT
+% 
+% %boxplot of the RTs
+% subplot(2,4,8)
+% boxplot(squeeze(mean(RTs,2)),'color',plotcolors)
+% set(gca,'tickdir','out','xtick',1:3,'xticklabel',{'fast','medium','slow'},'fontsize',18)
+% box off
+% ylabel('Response time (s)')
+% 
 set(gcf,'color','w')
 
 

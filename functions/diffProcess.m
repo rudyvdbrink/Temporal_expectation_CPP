@@ -31,7 +31,7 @@ function [resp]=diffProcess(varargin)
 %     tau: step (default = 0.0001)
 %
 %   Output: 
-%     resp is a matrix (2x2), the first column contains RT (in 
+%     resp is a matrix (n by 2), the first column contains RT (in 
 %     seconds), the second contains 1 for correct (upper threshold), 0 for 
 %     incorrect (lower threshold). RT is NAN if the process did not 
 %     terminate.
