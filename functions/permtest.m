@@ -1,4 +1,4 @@
-function [h, p, diff, diff_null] = permtestn(a,varargin)
+function [h, p, diff, diff_null] = permtest(a,varargin)
 %   Non-parametric permutation test to compare means using
 %   within-participant shuffling. Use as a paired-sample permutation test. 
 %
