@@ -84,11 +84,6 @@ ylim([5 20])
 ylabel('Frequency (Hz)')
 xlabel('Peri-stimulus time (ms)')
 
-[~, p] = permtest(squeeze(mean(tfr(:,1:2,:,:),2)),squeeze(mean(tfr(:,3:4,:,:),2)),100000,0.05,'left');
-h = fdr(p,0.05);
-hold on
-contour(h,1,'linecolor','k')
-
 %% Make line plot of alpha power in the individual conditions
 
 figure

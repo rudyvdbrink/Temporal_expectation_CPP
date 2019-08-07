@@ -7,7 +7,7 @@ clc
 homedir = mfilename('fullpath');
 funcdir = [homedir(1:end-15) 'functions'];
 addpath(genpath(funcdir)); %folder with supporting functions
-addpath(genpath(homedir(1:end-7))); %folder where this scrip is stored
+addpath(genpath(homedir(1:end-7))); %folder where this script is stored
 %% load data
 
 %Modeldata contains the model parameters of the individual participants.
