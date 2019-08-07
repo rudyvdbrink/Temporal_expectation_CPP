@@ -68,7 +68,7 @@ simdata = simdata * 1000; %scale to ms (instead of seconds)
 %% Make scatter plot of model and data
 
 figure
-subplot(2,3,1)
+subplot(2,3,3)
 
 plotcolors = parula(4);
 r = zeros(4,1);
@@ -83,7 +83,7 @@ for condi = 1:4
     plot(squeeze(simdata(:,condi)),y,'-','color',plotcolors(condi,:),'LineWidth',2)        
 end
 
-xeb = std(simdata(:,:))./sqrt(size(simdata,1)); %error bar for the model data
+xeb = std(simdata(:,:))./sqrt(size(simdata,1)); %error bar for the model
 yeb = std(bhvdat(:,1:4))./sqrt(size(simdata,1));%error bar for the real data
 for condi = 1:4
     plot(squeeze(mean(simdata(:,condi))),squeeze(mean(bhvdat(:,condi))),'ko','MarkerFaceColor',plotcolors(condi,:),'markersize',10) %plot mean
@@ -112,7 +112,7 @@ vhardvalid   = dlmread('vhardvalid.csv'); %drift rate on valid difficult trials
 vhardinvalid = dlmread('vhardinvalid.csv'); %drift rate on invalid difficult trials
 
 % plot non-decision time
-subplot(2,3,2)
+subplot(2,2,3)
 hold on
 
 x  = 0.2:0.001:0.4; %range for histogram
@@ -140,7 +140,7 @@ p = sum(tvalid > tinvalid) / length(tvalid);
 text(0.275, 7, ['p = ' num2str(round(p*1000)/1000)],'FontSize',15)
 
 %plot drift rate
-subplot(2,3,3)
+subplot(2,2,4)
 hold on
 
 x  = 1:0.001:5; %range for histogram
