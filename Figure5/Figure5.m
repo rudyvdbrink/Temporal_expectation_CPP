@@ -43,7 +43,7 @@ load data.mat
 
 %% analysis setting
 
-f2plot = 9:12; %the alpha band
+f2plot = 9:14; %the alpha band
 npermutes = 10000; %number of iterations for permutation test
 
 %% Plot amplitude spectrum and topographical plot of alpha power
