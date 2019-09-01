@@ -100,7 +100,7 @@ xlabel('RT model (ms)')
 ylabel('RT data (ms)')
   
 %% load the posteriors, make histograms, and calculate p-values
-
+ddd
 alpha = 0.5; %transparancy of the histograms
 
 %load the posterior distributions
