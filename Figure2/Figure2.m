@@ -122,14 +122,14 @@ y  = pdf(pd,x); y = y/sum(y) * 100;
 patch(x,y,[0 0.8 0],'edgecolor','none','facealpha',alpha)
 hold on
 plot([mean(squeeze(modeldata(:,7))) mean(squeeze(modeldata(:,7)))], [0 max(y)], '--', 'color', [0 0.8 0],'linewidth',2)
-plot(modeldata(:,7),-0.4,'wo', 'MarkerFaceColor',[0 0.8 0])
+% plot(modeldata(:,7),-0.4,'wo', 'MarkerFaceColor',[0 0.8 0])
 
 pd = fitdist(tinvalid,'kernel');
 y  = pdf(pd,x); y = y/sum(y) * 100;
 patch(x,y,[0 0.4 0],'edgecolor','none','facealpha',alpha)
 hold on
 plot([mean(squeeze(modeldata(:,8))) mean(squeeze(modeldata(:,8)))], [0 max(y)], '--', 'color', [0 0.4 0],'linewidth',2)
-plot(modeldata(:,8),-0.6,'wo', 'MarkerFaceColor',[0 0.4 0])
+% plot(modeldata(:,8),-0.6,'wo', 'MarkerFaceColor',[0 0.4 0])
 
 xlim([0.23 0.33])
 title('T_{er}')
