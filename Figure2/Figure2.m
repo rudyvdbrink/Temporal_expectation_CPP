@@ -131,39 +131,39 @@ bf = t1smpbf(stats.tstat,21);
 title(['r = ' num2str(round(r*1000)/1000) ', p ' num2str(round(p*1000)/1000) ', BF = ' num2str(round(bf*1000)/1000)])
 
 %% Plot correlation between model effect of validity on Ter, and real effect of validity on RT
-
-a = squeeze(mean(modeldata(:,[3 5]),2)) -  squeeze(mean(modeldata(:,[4 6]),2));
-b = mean(bhvdat(:,[2 4]),2)-mean(bhvdat(:,[1 3]),2); %invalid versus valid RT
-
-%plot model versus data (scatter plot)
-subplot(2,3,1)
-plot(a,b,'wo','MarkerFaceColor','k')
-hold on
-
-%get least squares regression line and plot
-P = polyfit(a,b,1);
-y = a.*P(1) + P(2); %least squares regression line
-plot(a,y,'-','color',[1 1 1]*.5,'LineWidth',2)
-
-%formatting
-
-box off
-set(gca,'tickdir','out','fontsize',18,'ytick',-10:20:90,'xtick',0:.2:1.2)
-xlim([0 1.2])
-ylim([-10 90])
-shg
-hold on
-plot([0 1.2],[-10 90],'k--')
-axis square
-xlabel('T_{er} from model: invalid - valid (ms)')
-ylabel('RT: invalid - valid (ms)')
-
-%correlate and get bayes factor for difference between conditions
-[~, ~, ~, stats] = ttest(a,b);
-bf = t1smpbf(stats.tstat,21);
-[r, p] = corr(a,b);
-title(['r = ' num2str(round(r*1000)/1000) ', p ' num2str(round(p*1000)/1000) ', BF = ' num2str(round(bf*1000)/1000)])
-  
+% 
+% a = squeeze(mean(modeldata(:,[3 5]),2)) -  squeeze(mean(modeldata(:,[4 6]),2));
+% b = mean(bhvdat(:,[2 4]),2)-mean(bhvdat(:,[1 3]),2); %invalid versus valid RT
+% 
+% %plot model versus data (scatter plot)
+% subplot(2,3,1)
+% plot(a,b,'wo','MarkerFaceColor','k')
+% hold on
+% 
+% %get least squares regression line and plot
+% P = polyfit(a,b,1);
+% y = a.*P(1) + P(2); %least squares regression line
+% plot(a,y,'-','color',[1 1 1]*.5,'LineWidth',2)
+% 
+% %formatting
+% 
+% box off
+% set(gca,'tickdir','out','fontsize',18,'ytick',-10:20:90,'xtick',0:.2:1.2)
+% xlim([0 1.2])
+% ylim([-10 90])
+% shg
+% hold on
+% plot([0 1.2],[-10 90],'k--')
+% axis square
+% xlabel('T_{er} from model: invalid - valid (ms)')
+% ylabel('RT: invalid - valid (ms)')
+% 
+% %correlate and get bayes factor for difference between conditions
+% [~, ~, ~, stats] = ttest(a,b);
+% bf = t1smpbf(stats.tstat,21);
+% [r, p] = corr(a,b);
+% title(['r = ' num2str(round(r*1000)/1000) ', p ' num2str(round(p*1000)/1000) ', BF = ' num2str(round(bf*1000)/1000)])
+%   
 %% load the posteriors, make histograms, and calculate p-values
 
 alpha = 0.5; %transparancy of the histograms
