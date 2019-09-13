@@ -102,17 +102,19 @@ ylabel('RT data (ms)')
 a = (modeldata(:,2)-modeldata(:,1))*1000;
 b = mean(bhvdat(:,3:4),2)-mean(bhvdat(:,1:2),2);
 
+%plot model versus data (scatter plot)
 subplot(2,3,2)
 plot(a,b,'wo','MarkerFaceColor','k')
+hold on
 
-% lsline
-P = polyfit(squeeze(simdata(:,condi)),bhvdat(:,condi),1);
-    y = squeeze(simdata(:,condi)).*P(1) + P(2); %least squares regression line
-    plot(squeeze(simdata(:,condi)),y,'-','color',plotcolors(condi,:),'LineWidth',2)  
+%get least squares regression line and plot
+P = polyfit(a,b,1);
+y = a.*P(1) + P(2); %least squares regression line
+plot(a,y,'-','color',[1 1 1]*.5,'LineWidth',2)
 
+%formatting
 xlim([-10 90])
 ylim([-10 90])
-
 box off
 set(gca,'tickdir','out','fontsize',18,'ytick',-10:20:90,'xtick',-10:20:90)
 shg
@@ -122,6 +124,7 @@ axis square
 xlabel('T_{er} from model: invalid - valid (ms)')
 ylabel('RT: invalid - valid (ms)')
 
+%correlate
 [r, p] = corr(a,b);
 title(['r = ' num2str(r) ', p ' num2str(p)]) 
   
