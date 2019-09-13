@@ -103,9 +103,12 @@ a = (modeldata(:,2)-modeldata(:,1))*1000;
 b = mean(bhvdat(:,3:4),2)-mean(bhvdat(:,1:2),2);
 
 subplot(2,3,2)
-plot(a,b,'ko')
+plot(a,b,'wo','MarkerFaceColor','k')
 
-lsline
+% lsline
+P = polyfit(squeeze(simdata(:,condi)),bhvdat(:,condi),1);
+    y = squeeze(simdata(:,condi)).*P(1) + P(2); %least squares regression line
+    plot(squeeze(simdata(:,condi)),y,'-','color',plotcolors(condi,:),'LineWidth',2)  
 
 xlim([-10 90])
 ylim([-10 90])
@@ -120,6 +123,7 @@ xlabel('T_{er} from model: invalid - valid (ms)')
 ylabel('RT: invalid - valid (ms)')
 
 [r, p] = corr(a,b);
+title(['r = ' num2str(r) ', p ' num2str(p)]) 
   
 %% load the posteriors, make histograms, and calculate p-values
 
