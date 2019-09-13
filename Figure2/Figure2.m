@@ -23,6 +23,14 @@ addpath(genpath(homedir(1:end-7))); %folder where this script is stored
 %8) Ter (non decision time) on invalid trials
 %9) Threshold
 
+%1) Ter (non decision time) on valid trials
+%2) Ter (non decision time) on invalid trials
+%3) v (drift rate) on valid easy trials
+%4) v (drift rate) on valid difficult trials
+%5) v (drift rate) on invalid easy trials
+%6) v (drift rate) on invalid difficult trials
+%7) a (threshold)
+
 %The matrix 'bhvdat' contains the behavioral data, and has N rows 
 %(participants) and 18 columns:
 %1) RT on short interval, validly cued, easy
@@ -50,17 +58,26 @@ load data.mat
 
 %% Simulate behavioral data using the model parameters (this can take a few minutes)
 
+
+%1) Ter (non decision time) on valid trials
+%2) Ter (non decision time) on invalid trials
+%3) v (drift rate) on valid easy trials
+%4) v (drift rate) on valid difficult trials
+%5) v (drift rate) on invalid easy trials
+%6) v (drift rate) on invalid difficult trials
+%7) a (threshold)
+
 c       = 1.0;
 numtr   = 10000;
 simdata = zeros(size(modeldata,1),2,2);
 for subi = 1:size(modeldata,1)
-    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,2),'Ter',modeldata(subi,7));
+    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,3),'Ter',modeldata(subi,1));
     simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %valid, easy    
-    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,3),'Ter',modeldata(subi,7));
+    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,4),'Ter',modeldata(subi,1));
     simdata(subi,1,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %valid, difficult    
-    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,4),'Ter',modeldata(subi,8));
+    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,5),'Ter',modeldata(subi,2));
     simdata(subi,2,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %invalid, easy    
-    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,5),'Ter',modeldata(subi,8));
+    resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,6),'Ter',modeldata(subi,2));
     simdata(subi,2,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %invalid, difficult
 end
 simdata = simdata * 1000; %scale to ms (instead of seconds)
@@ -121,14 +138,14 @@ pd = fitdist(tvalid,'kernel');
 y  = pdf(pd,x); y = y/sum(y) * 100;
 patch(x,y,[0 0.8 0],'edgecolor','none','facealpha',alpha)
 hold on
-plot([mean(squeeze(modeldata(:,7))) mean(squeeze(modeldata(:,7)))], [0 max(y)], '--', 'color', [0 0.8 0],'linewidth',2)
+plot([mean(squeeze(modeldata(:,1))) mean(squeeze(modeldata(:,1)))], [0 max(y)], '--', 'color', [0 0.8 0],'linewidth',2)
 % plot(modeldata(:,7),-0.4,'wo', 'MarkerFaceColor',[0 0.8 0])
 
 pd = fitdist(tinvalid,'kernel');
 y  = pdf(pd,x); y = y/sum(y) * 100;
 patch(x,y,[0 0.4 0],'edgecolor','none','facealpha',alpha)
 hold on
-plot([mean(squeeze(modeldata(:,8))) mean(squeeze(modeldata(:,8)))], [0 max(y)], '--', 'color', [0 0.4 0],'linewidth',2)
+plot([mean(squeeze(modeldata(:,2))) mean(squeeze(modeldata(:,2)))], [0 max(y)], '--', 'color', [0 0.4 0],'linewidth',2)
 % plot(modeldata(:,8),-0.6,'wo', 'MarkerFaceColor',[0 0.4 0])
 
 xlim([0.23 0.33])
@@ -151,25 +168,25 @@ pd = fitdist(veasyvalid,'kernel');
 y  = pdf(pd,x); y = y/sum(y) * 100;
 patch(x,y,[0 0 0.8],'edgecolor','none','facealpha',alpha)
 hold on
-plot([mean(squeeze(modeldata(:,2))) mean(squeeze(modeldata(:,2)))], [0 max(y)], '--', 'color', [0 0 0.8],'linewidth',2)
+plot([mean(squeeze(modeldata(:,3))) mean(squeeze(modeldata(:,3)))], [0 max(y)], '--', 'color', [0 0 0.8],'linewidth',2)
 
 pd = fitdist(vhardvalid,'kernel');
 y  = pdf(pd,x); y = y/sum(y) * 100;
 patch(x,y,[0.8 0 0],'edgecolor','none','facealpha',alpha)
 hold on
-plot([mean(squeeze(modeldata(:,3))) mean(squeeze(modeldata(:,3)))], [0 max(y)], '--', 'color', [0.8 0 0],'linewidth',2)
+plot([mean(squeeze(modeldata(:,4))) mean(squeeze(modeldata(:,4)))], [0 max(y)], '--', 'color', [0.8 0 0],'linewidth',2)
 
 pd = fitdist(veasyinvalid,'kernel');
 y  = pdf(pd,x); y = y/sum(y) * 100;
 patch(x,y,[0 0 0.4],'edgecolor','none','facealpha',alpha)
 hold on
-plot([mean(squeeze(modeldata(:,4))) mean(squeeze(modeldata(:,4)))], [0 max(y)], '--', 'color', [0 0 0.4],'linewidth',2)
+plot([mean(squeeze(modeldata(:,5))) mean(squeeze(modeldata(:,5)))], [0 max(y)], '--', 'color', [0 0 0.4],'linewidth',2)
 
 pd = fitdist(vhardinvalid,'kernel');
 y  = pdf(pd,x); y = y/sum(y) * 100;
 patch(x,y,[0.4 0 0],'edgecolor','none','facealpha',alpha)
 hold on
-plot([mean(squeeze(modeldata(:,5))) mean(squeeze(modeldata(:,5)))], [0 max(y)], '--', 'color', [0.4 0 0],'linewidth',2)
+plot([mean(squeeze(modeldata(:,6))) mean(squeeze(modeldata(:,6)))], [0 max(y)], '--', 'color', [0.4 0 0],'linewidth',2)
 
 xlim([1.5 3.5])
 ylim([0 0.4])
