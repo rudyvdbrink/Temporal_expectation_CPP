@@ -124,9 +124,11 @@ axis square
 xlabel('T_{er} from model: invalid - valid (ms)')
 ylabel('RT: invalid - valid (ms)')
 
-%correlate
+%correlate and get bayes factor for difference between conditions
 [r, p] = corr(a,b);
-title(['r = ' num2str(r) ', p ' num2str(p)]) 
+title(['r = ' num2str(r) ', p ' num2str(p)])
+[~, ~, ~, stats] = ttest(a,b);
+bf = t1smpbf(stats.tstat,21);
   
 %% load the posteriors, make histograms, and calculate p-values
 
