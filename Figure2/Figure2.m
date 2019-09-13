@@ -11,18 +11,8 @@ addpath(genpath(homedir(1:end-7))); %folder where this script is stored
 %% load data
 
 %Modeldata contains the model parameters of the individual participants.
-%this variable has N rows (participants) and 9 columns (variables). The
-%variables are as follows:
-%1) v (drift rate) on catch trials
-%2) v (drift rate) on valid easy trials
-%3) v (drift rate) on valid difficult trials
-%4) v (drift rate) on invalid easy trials
-%5) v (drift rate) on invalid difficult trials
-%6) Ter (non decision time) on catch trials
-%7) Ter (non decision time) on valid trials
-%8) Ter (non decision time) on invalid trials
-%9) Threshold
-
+%this variable has N rows (participants) and 7 columns (parameters). The
+%parameters are as follows:
 %1) Ter (non decision time) on valid trials
 %2) Ter (non decision time) on invalid trials
 %3) v (drift rate) on valid easy trials
@@ -57,15 +47,6 @@ addpath(genpath(homedir(1:end-7))); %folder where this script is stored
 load data.mat
 
 %% Simulate behavioral data using the model parameters (this can take a few minutes)
-
-
-%1) Ter (non decision time) on valid trials
-%2) Ter (non decision time) on invalid trials
-%3) v (drift rate) on valid easy trials
-%4) v (drift rate) on valid difficult trials
-%5) v (drift rate) on invalid easy trials
-%6) v (drift rate) on invalid difficult trials
-%7) a (threshold)
 
 c       = 1.0;
 numtr   = 10000;
