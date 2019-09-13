@@ -102,8 +102,7 @@ ylabel('RT data (ms)')
 a = (modeldata(:,2)-modeldata(:,1))*1000;
 b = mean(bhvdat(:,3:4),2)-mean(bhvdat(:,1:2),2);
 
-subplot(2,3,2)
-plot(a,b,'ko')
+figure,plot(a,b,'ko')
 
 lsline
 
@@ -116,8 +115,8 @@ shg
 hold on
 plot([-10 90],[-10 90],'k--')
 axis square
-xlabel('T_{er} from model: invalid - valid (ms)')
-ylabel('RT: invalid - valid (ms)')
+xlabel('Ter from model: invalid - valid (ms)')
+xlabel('RT: invalid - valid (ms)')
 
 [r, p] = corr(a,b);
   
