@@ -99,8 +99,8 @@ ylabel('RT data (ms)')
 
 %% Plot correlation between model effect of validity on Ter, and real effect of validity on RT
 
-a = (modeldata(:,2)-modeldata(:,1))*1000;
-b = mean(bhvdat(:,3:4),2)-mean(bhvdat(:,1:2),2);
+a = (modeldata(:,2)-modeldata(:,1))*1000; %invalid versus valid Ter
+b = mean(bhvdat(:,3:4),2)-mean(bhvdat(:,1:2),2); %invalid versus valid RT
 
 %plot model versus data (scatter plot)
 subplot(2,3,2)
@@ -125,10 +125,10 @@ xlabel('T_{er} from model: invalid - valid (ms)')
 ylabel('RT: invalid - valid (ms)')
 
 %correlate and get bayes factor for difference between conditions
-[r, p] = corr(a,b);
-title(['r = ' num2str(r) ', p ' num2str(p)])
 [~, ~, ~, stats] = ttest(a,b);
 bf = t1smpbf(stats.tstat,21);
+[r, p] = corr(a,b);
+title(['r = ' num2str(round(r*1000)/1000) ', p ' num2str(round(p*1000)/1000) ', BF = ' num2str(round(bf*1000)/1000)])
   
 %% load the posteriors, make histograms, and calculate p-values
 
