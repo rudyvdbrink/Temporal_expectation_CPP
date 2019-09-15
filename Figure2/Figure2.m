@@ -19,7 +19,7 @@ addpath(genpath(homedir(1:end-7))); %folder where this script is stored
 %4) v (drift rate) on valid difficult trials
 %5) v (drift rate) on invalid easy trials
 %6) v (drift rate) on invalid difficult trials
-%7) a (threshold)
+%7) a (threshold) 
 
 %The matrix 'bhvdat' contains the behavioral data, and has N rows 
 %(participants) and 18 columns:
