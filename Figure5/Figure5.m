@@ -8,6 +8,8 @@ homedir = mfilename('fullpath');
 funcdir = [homedir(1:end-15) 'functions'];
 addpath(genpath(funcdir))
 
+eeglab,close
+
 %% load data
 
 %Variable tfr contains the power values. It has a size of 21 (participants)
