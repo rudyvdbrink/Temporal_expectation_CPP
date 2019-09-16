@@ -59,8 +59,8 @@ set(gca,'tickdir','out')
 xlim([1 30])
 box off
 hold on
-plot([9 9],[0 .6],'k--')
-plot([12 12],[0 .6],'k--')
+plot([f2plot(1) f2plot(1)],[0 .6],'k--')
+plot([f2plot(end) f2plot(end)],[0 .6],'k--')
 
 %topographical plot
 figure
