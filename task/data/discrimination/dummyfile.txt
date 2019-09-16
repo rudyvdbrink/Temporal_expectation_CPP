@@ -1,1 +1,1 @@
-This file is here to make sure that the folder gets uploaded to github. Without it, the task will prompt an error because it won't be ablet to save the data.
+This file is here to make sure that the folder gets uploaded to github. Without it, the task will prompt an error because it won't be able to save the data.
