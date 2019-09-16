@@ -118,9 +118,9 @@ addpath(genpath([rootdir '\functions'])); %add the folder with sub functions to 
 
 %% pop-up input dialog with participant information and task
 prompt = {'Participant number','Task',        'EEG',   'Age','Gender','Screen width','Viewing distance'}; %the variables in the input dialog
-def    = {'0',                 '1',           '1',     '0',  'F',     '37.5',          '90'}; %the default settings
+def    = {'0',                 '1',           '1',     '0',  'F',     '37.5',         '90'}; %the default settings
 answer = inputdlg(prompt, 'Experimental setup information',1,def); %show the input dialog
-         [subnum,               task_version, BIOSEMI, age,  gender,  width,         distance] = deal(answer{:});
+         [subnum,               task_version, BIOSEMI, age,  gender,  width,          distance] = deal(answer{:});
          
 %convert string variables to numbers         
 subnum       = str2double(subnum);
