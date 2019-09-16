@@ -180,28 +180,26 @@ vhardinvalid = dlmread('vhardinvalid.csv'); %drift rate on invalid difficult tri
 subplot(2,2,3)
 hold on
 
-x  = 0.2:0.001:0.4; %range for histogram
+x  = 0.2:0.001:0.4; %range for histogram (this is in seconds)
 
 pd = fitdist(tvalid,'kernel');
 y  = pdf(pd,x); y = y/sum(y) * 100;
-patch(x,y,[0 0.8 0],'edgecolor','none','facealpha',alpha)
+patch(x*1000,y,[0 0.8 0],'edgecolor','none','facealpha',alpha) %plot the data in ms (i.e. multiply by 1000)
 hold on
-plot([mean(squeeze(modeldata(:,1))) mean(squeeze(modeldata(:,1)))], [0 max(y)], '--', 'color', [0 0.8 0],'linewidth',2)
-% plot(modeldata(:,7),-0.4,'wo', 'MarkerFaceColor',[0 0.8 0])
+plot([mean(squeeze(modeldata(:,1))) mean(squeeze(modeldata(:,1)))]*1000, [0 max(y)], '--', 'color', [0 0.8 0],'linewidth',2)
 
 pd = fitdist(tinvalid,'kernel');
 y  = pdf(pd,x); y = y/sum(y) * 100;
-patch(x,y,[0 0.4 0],'edgecolor','none','facealpha',alpha)
+patch(x*1000,y,[0 0.4 0],'edgecolor','none','facealpha',alpha)
 hold on
-plot([mean(squeeze(modeldata(:,2))) mean(squeeze(modeldata(:,2)))], [0 max(y)], '--', 'color', [0 0.4 0],'linewidth',2)
-% plot(modeldata(:,8),-0.6,'wo', 'MarkerFaceColor',[0 0.4 0])
+plot([mean(squeeze(modeldata(:,2))) mean(squeeze(modeldata(:,2)))]*1000, [0 max(y)], '--', 'color', [0 0.4 0],'linewidth',2)
 
-xlim([0.23 0.33])
+xlim([0.23 0.33]*1000)
 title('T_{er}')
 set(gca,'tickdir','out','fontsize',18,'linewidth',1)
 xlabel('Parameter estimate (a.u.)')
 ylabel('Frequency of occurance (%)')
-
+ddd
 %validity effect on non-decision time
 p = sum(tvalid > tinvalid) / length(tvalid);
 text(0.275, 7, ['p = ' num2str(round(p*1000)/1000)],'FontSize',15)
