@@ -56,6 +56,9 @@ ylabel('Amplitude (% of total)')
 set(gca,'tickdir','out')
 xlim([1 30])
 box off
+hold on
+plot([9 9],[0 .6],'k--')
+plot([12 12],[0 .6],'k--')
 
 %topographical plot
 figure
