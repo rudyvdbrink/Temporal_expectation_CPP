@@ -103,7 +103,7 @@ a = (modeldata(:,2)-modeldata(:,1))*1000; %invalid versus valid Ter
 b = mean(bhvdat(:,3:4),2)-mean(bhvdat(:,1:2),2); %invalid versus valid RT
 
 %plot model versus data (scatter plot)
-subplot(2,3,2)
+subplot(2,3,1)
 plot(a,b,'wo','MarkerFaceColor','k')
 hold on
 
@@ -197,12 +197,12 @@ plot([mean(squeeze(modeldata(:,2))) mean(squeeze(modeldata(:,2)))]*1000, [0 max(
 xlim([0.23 0.33]*1000)
 title('T_{er}')
 set(gca,'tickdir','out','fontsize',18,'linewidth',1)
-xlabel('Parameter estimate (a.u.)')
+xlabel('Parameter estimate (ms)')
 ylabel('Frequency of occurance (%)')
-ddd
+
 %validity effect on non-decision time
 p = sum(tvalid > tinvalid) / length(tvalid);
-text(0.275, 7, ['p = ' num2str(round(p*1000)/1000)],'FontSize',15)
+text(275, 7, ['p = ' num2str(round(p*1000)/1000)],'FontSize',15)
 
 %plot drift rate
 subplot(2,2,4)
