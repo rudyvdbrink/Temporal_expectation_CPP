@@ -53,49 +53,42 @@ numtr   = 10000;
 simdata = zeros(size(modeldata,1),2,2);
 qm      = zeros(size(modeldata,1),4,5);
 n       = zeros(size(qm));
-%figure,plot(quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),[0.1:0.2:0.9]),[0.1:0.2:0.9].* mean(resp(:,2)==1))
 for subi = 1:size(modeldata,1)
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,3),'Ter',modeldata(subi,1));
-    simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %valid, easy 
-    qm(subi,1,:) = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),[0.1:0.2:0.9]);  %get quantile (valid, easy)
-    n(subi,1,:)  = [0.1:0.2:0.9].* mean(resp(:,2)==1); %scale cumulative probability by accuracy
+    simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %valid, easy
+    qm(subi,1,:) = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),5); %get quantile (valid, easy)
+    n(subi,1,:)  = hist(resp(:,1),qm(subi,1,:));
     
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,4),'Ter',modeldata(subi,1));
     simdata(subi,1,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %valid, difficult   
-    qm(subi,2,:) = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),[0.1:0.2:0.9]); %get quantile (valid, difficult)
-    n(subi,2,:)  = [0.1:0.2:0.9].* mean(resp(:,2)==1); %scale cumulative probability by accuracy
+    qm(subi,2,:) = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),5); %get quantile (valid, difficult)
+    n(subi,2,:)  = hist(resp(:,1),qm(subi,2,:));
     
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,5),'Ter',modeldata(subi,2));
     simdata(subi,2,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %invalid, easy 
-    qm(subi,3,:)  = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),[0.1:0.2:0.9]); %get quantile (invalid, easy)
-    n(subi,3,:)   = [0.1:0.2:0.9].* mean(resp(:,2)==1); %scale cumulative probability by accuracy
+    qm(subi,3,:) = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1)),5); %get quantile (invalid, easy)
+    n(subi,3,:)  = hist(resp(:,1),qm(subi,3,:));
     
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,6),'Ter',modeldata(subi,2));
     simdata(subi,2,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %invalid, difficult
-    qm(subi,4,:)  = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),[0.1:0.2:0.9]); %get quantile (invalid, difficult)
-    n(subi,4,:)   = [0.1:0.2:0.9].* mean(resp(:,2)==1); %scale cumulative probability by accuracy
+    qm(subi,4,:) = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),5); %get quantile (invalid, difficult)
+    n(subi,4,:)  = hist(resp(:,1),qm(subi,4,:));
     
 end
 simdata = simdata * 1000; %scale to ms (instead of seconds)
 
-%% make defective cumulative quantile probability plot
+%% make cumulative quantile probability plot
 figure
 
-load 'C:\DATA\TESD\temp.mat'
-
 for condi = 1:4
-    plot(squeeze(mean(qm(:,condi,:))), squeeze(mean(n(:,condi,:))), 'o','color',plotcolors(condi,:),'MarkerSize',10, 'LineWidth',2)
+    plot(squeeze(mean(qm(:,condi,:))), mean(cumsum(squeeze(n(:,condi,:)./sum(n(:,condi,:),3)),2)), 'x--','color',plotcolors(condi,:),'MarkerSize',10, 'LineWidth',2)
     hold on
-    
-    plot(squeeze(mean(qd(:,condi,:))), squeeze(mean(nd(:,condi,:))), '--','color',plotcolors(condi,:),'MarkerSize',10, 'LineWidth',2)
 end
 
 box off
 xlabel('RT (s)')
 ylabel('Cumulative probability')
-set(gca,'tickdir','out','ytick',0:.2:1,'ylim',[0 1])
-
-ddd
+set(gca,'tickdir','out')
 
 %% Make scatter plot of model and data
 
@@ -164,7 +157,40 @@ bf = t1smpbf(stats.tstat,21);
 [r, p] = corr(a,b);
 title(['r = ' num2str(round(r*1000)/1000) ', p ' num2str(round(p*1000)/1000) ', BF = ' num2str(round(bf*1000)/1000)])
 
- 
+%% Plot correlation between model effect of validity on Ter, and real effect of validity on RT
+% 
+% a = squeeze(mean(modeldata(:,[3 5]),2)) -  squeeze(mean(modeldata(:,[4 6]),2));
+% b = mean(bhvdat(:,[2 4]),2)-mean(bhvdat(:,[1 3]),2); %invalid versus valid RT
+% 
+% %plot model versus data (scatter plot)
+% subplot(2,3,1)
+% plot(a,b,'wo','MarkerFaceColor','k')
+% hold on
+% 
+% %get least squares regression line and plot
+% P = polyfit(a,b,1);
+% y = a.*P(1) + P(2); %least squares regression line
+% plot(a,y,'-','color',[1 1 1]*.5,'LineWidth',2)
+% 
+% %formatting
+% 
+% box off
+% set(gca,'tickdir','out','fontsize',18,'ytick',-10:20:90,'xtick',0:.2:1.2)
+% xlim([0 1.2])
+% ylim([-10 90])
+% shg
+% hold on
+% plot([0 1.2],[-10 90],'k--')
+% axis square
+% xlabel('T_{er} from model: invalid - valid (ms)')
+% ylabel('RT: invalid - valid (ms)')
+% 
+% %correlate and get bayes factor for difference between conditions
+% [~, ~, ~, stats] = ttest(a,b);
+% bf = t1smpbf(stats.tstat,21);
+% [r, p] = corr(a,b);
+% title(['r = ' num2str(round(r*1000)/1000) ', p ' num2str(round(p*1000)/1000) ', BF = ' num2str(round(bf*1000)/1000)])
+%   
 %% load the posteriors, make histograms, and calculate p-values
 
 alpha = 0.5; %transparancy of the histograms
