@@ -52,57 +52,67 @@ c       = 1.0;
 numtr   = 10000;
 simdata = zeros(size(modeldata,1),2,2);
 qm      = zeros(size(modeldata,1),4,5);
-n       = zeros(size(qm));
-%figure,plot(quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),[0.1:0.2:0.9]),[0.1:0.2:0.9].* mean(resp(:,2)==1))
+nm       = zeros(size(qm));
 for subi = 1:size(modeldata,1)
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,3),'Ter',modeldata(subi,1));
-    simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %valid, easy 
-    qm(subi,1,:) = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),[0.1:0.2:0.9]);  %get quantile (valid, easy)
-    n(subi,1,:)  = [0.1:0.2:0.9].* mean(resp(:,2)==1); %scale cumulative probability by accuracy
+    simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 ,1))); %valid, easy 
+    qm(subi,1,:) = quantile(resp(resp(:,2)==1 ,1),0.1:0.2:0.9);  %get quantile (valid, easy)
+    nm(subi,1,:)  = (0.1:0.2:0.9) .* mean(resp(:,2)==1); %scale cumulative probability by accuracy
     
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,4),'Ter',modeldata(subi,1));
-    simdata(subi,1,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %valid, difficult   
-    qm(subi,2,:) = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),[0.1:0.2:0.9]); %get quantile (valid, difficult)
-    n(subi,2,:)  = [0.1:0.2:0.9].* mean(resp(:,2)==1); %scale cumulative probability by accuracy
+    simdata(subi,1,2) = squeeze(mean(resp(resp(:,2)==1 ,1))); %valid, difficult   
+    qm(subi,2,:) = quantile(resp(resp(:,2)==1 ,1),0.1:0.2:0.9); %get quantile (valid, difficult)
+    nm(subi,2,:) = (0.1:0.2:0.9).* mean(resp(:,2)==1); %scale cumulative probability by accuracy
     
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,5),'Ter',modeldata(subi,2));
-    simdata(subi,2,1) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %invalid, easy 
-    qm(subi,3,:)  = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),[0.1:0.2:0.9]); %get quantile (invalid, easy)
-    n(subi,3,:)   = [0.1:0.2:0.9].* mean(resp(:,2)==1); %scale cumulative probability by accuracy
+    simdata(subi,2,1) = squeeze(mean(resp(resp(:,2)==1 ,1))); %invalid, easy 
+    qm(subi,3,:)  = quantile(resp(resp(:,2)==1 ,1),0.1:0.2:0.9); %get quantile (invalid, easy)
+    nm(subi,3,:)  = (0.1:0.2:0.9).* mean(resp(:,2)==1); %scale cumulative probability by accuracy
     
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,6),'Ter',modeldata(subi,2));
-    simdata(subi,2,2) = squeeze(mean(resp(resp(:,2)==1 & resp(:,1) < maxrt,1))); %invalid, difficult
-    qm(subi,4,:)  = quantile(resp(resp(:,2)==1 & resp(:,1) < maxrt,1),[0.1:0.2:0.9]); %get quantile (invalid, difficult)
-    n(subi,4,:)   = [0.1:0.2:0.9].* mean(resp(:,2)==1); %scale cumulative probability by accuracy
-    
+    simdata(subi,2,2) = squeeze(mean(resp(resp(:,2)==1 ,1))); %invalid, difficult
+    qm(subi,4,:)  = quantile(resp(resp(:,2)==1 ,1),0.1:0.2:0.9); %get quantile (invalid, difficult)
+    nm(subi,4,:)  = (0.1:0.2:0.9).* mean(resp(:,2)==1); %scale cumulative probability by accuracy    
 end
 simdata = simdata * 1000; %scale to ms (instead of seconds)
 
 %% make defective cumulative quantile probability plot
 figure
+subplot(2,3,2)
 
-load 'C:\DATA\TESD\temp.mat'
+plotcolors = parula(4);
 
+qm = qm * 1000; %scale to ms
+qd = qd * 1000; %scale to ms
 for condi = 1:4
-    plot(squeeze(mean(qm(:,condi,:))), squeeze(mean(n(:,condi,:))), 'o','color',plotcolors(condi,:),'MarkerSize',10, 'LineWidth',2)
+    plot(squeeze(mean(qm(:,condi,:))), squeeze(mean(nm(:,condi,:))), 'o','color',plotcolors(condi,:),'MarkerSize',10, 'LineWidth',2)
     hold on
     
-    plot(squeeze(mean(qd(:,condi,:))), squeeze(mean(nd(:,condi,:))), '--','color',plotcolors(condi,:),'MarkerSize',10, 'LineWidth',2)
+    plot(squeeze(mean(qd(:,condi,:))), squeeze(mean(nd(:,condi,:))), '--','color',plotcolors(condi,:),'MarkerSize',10, 'LineWidth',2)    
+    
+    %plot sem for cumulative probability (y axis)
+    m   = squeeze(mean(nd(:,condi,:))); 
+    sem = squeeze(std(nd(:,condi,:)))./sqrt(size(modeldata,1));    
+    plot([squeeze(mean(qd(:,condi,:))) squeeze(mean(qd(:,condi,:)))]' , [m-sem m+sem]','color',plotcolors(condi,:),'LineWidth',2)
+    
+    %plot sem for quintiles (x axis)
+    m   = squeeze(mean(qd(:,condi,:))); 
+    sem = squeeze(std(qd(:,condi,:)))./sqrt(size(modeldata,1));    
+    plot([m-sem m+sem]' , [squeeze(mean(nd(:,condi,:))) squeeze(mean(nd(:,condi,:)))]','color',plotcolors(condi,:),'LineWidth',2)
+    
 end
 
 box off
-xlabel('RT (s)')
+xlabel('RT (ms)')
 ylabel('Cumulative probability')
-set(gca,'tickdir','out','ytick',0:.2:1,'ylim',[0 1])
+set(gca,'tickdir','out','ytick',0:.2:1,'ylim',[0 1],'fontsize',18,'linewidth',1)
 
-ddd
+
 
 %% Make scatter plot of model and data
 
-figure
 subplot(2,3,3)
 
-plotcolors = parula(4);
 r = zeros(4,1);
 p = zeros(size(r));
 for condi = 1:4    
@@ -116,7 +126,7 @@ for condi = 1:4
 end
 
 xeb = std(simdata(:,:))./sqrt(size(simdata,1)); %error bar for the model
-yeb = std(bhvdat(:,1:4))./sqrt(size(simdata,1));%error bar for the real data
+yeb = std(bhvdat(:,1:4))./sqrt(size(simdata,1));%error bar for the data
 for condi = 1:4
     plot(squeeze(mean(simdata(:,condi))),squeeze(mean(bhvdat(:,condi))),'ko','MarkerFaceColor',plotcolors(condi,:),'markersize',10) %plot mean
     plot([squeeze(mean(simdata(:,condi))) squeeze(mean(simdata(:,condi)))], [squeeze(mean(bhvdat(:,condi)))-yeb(condi) squeeze(mean(bhvdat(:,condi)))+yeb(condi)],'k','LineWidth',2) %plot error bar (for real data)
@@ -130,6 +140,22 @@ set(gca,'tickdir','out','fontsize',18,'linewidth',1)
 box off
 xlabel('RT model (ms)')
 ylabel('RT data (ms)')
+
+%test if the slope of the least squares regression line falls within the
+%95% confidence interval of a bootstrapped null distribution (i.e. if it is
+%close to the identity line)
+nboots = 10000; %number of iterations for bootstrapping
+cdat = [squeeze(simdata(:,condi)) bhvdat(:,condi)]; %the data for bootstrapping
+P_null = zeros(nboots,2); %reserve some memory
+for bi = 1:nboots   
+    cdat_null    = cdat(randsample(1:size(cdat,1),size(cdat,1),1),:); %bootstrapped data (sampled with replacement)
+    P_null(bi,:) = polyfit(cdat_null(:,1),cdat_null(:,2),1); %fitted least squares regression line   
+end
+h = P(1) > prctile(P_null(:,1),5) &&  P(1) < prctile(P_null(:,1),95); %test if the observed value falls within the 95% confidence interval
+
+if h
+    disp(['Slope of least squares regression (' num2str(P(1)) ') line fell within the 95% CI of a bootstrapped null distribution'])
+end
 
 %% Plot correlation between model effect of validity on Ter, and real effect of validity on RT
 
