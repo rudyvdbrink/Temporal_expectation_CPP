@@ -175,9 +175,9 @@ bf = t1smpbf(stats.tstat,21);
 [r, p] = corr(a,b);
 title(['r = ' num2str(round(r*1000)/1000) ', p ' num2str(round(p*1000)/1000) ', BF = ' num2str(round(bf*1000)/1000)])
 
-%test if the slope of the least squares regression line falls within the
-%95% confidence interval of a bootstrapped null distribution (i.e. if it is
-%close to the identity line)
+%test if the 95% confidence interval of a bootstrapped slope of the least
+%squares regression line overlaps with 1 (i.e. if the slope of the real 
+%regression line is close to that of the identity line)
 nboots = 10000; %number of iterations for bootstrapping
 cdat = [a b]; %the data for bootstrapping
 P_null = zeros(nboots,2); %reserve some memory
@@ -185,14 +185,13 @@ for bi = 1:nboots
     cdat_null    = cdat(randsample(1:size(cdat,1),size(cdat,1),1),:); %bootstrapped data (sampled with replacement)
     P_null(bi,:) = polyfit(cdat_null(:,1),cdat_null(:,2),1); %fitted least squares regression line   
 end
-h = P(1) > prctile(P_null(:,1),5) && P(1) < prctile(P_null(:,1),95); %test if the observed value falls within the 95% confidence interval
+h = 1 > prctile(P_null(:,1),5) && 1 < prctile(P_null(:,1),95); %test if the 95% confidence interval overlaps with 1
 
 if h
-    disp(['Slope of least squares regression (' num2str(P(1)) ') line fell within the 95% CI of a bootstrapped null distribution'])
+    disp(['95% CI of least squares regression line (slope = ' num2str(P(1)) ') overlaps with slope of the identity line'])
 end
 
-
-% %make a figure of the null distribution and observed value
+% %make a plot of the null distribution and observed value
 % [n, x] = hist(P_null(:,1),100);
 % figure
 % bar(x,n/sum(n)*100,'EdgeColor','none')
@@ -200,7 +199,6 @@ end
 % plot([P(1) P(1)] , [0 8],'k--')
 % plot([prctile(P_null(:,1),5)  prctile(P_null(:,1),5) ] , [0 8],'r--')
 % plot([prctile(P_null(:,1),95) prctile(P_null(:,1),95)] , [0 8],'r--')
-
  
 %% load the posteriors, make histograms, and calculate p-values
 
