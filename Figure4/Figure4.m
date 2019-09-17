@@ -109,6 +109,24 @@ xlabel('Peri-response time (ms)','fontsize',18)
 set(gca,'tickdir','out','fontsize',18,'linewidth',1) 
 ylim([-10 30])
 
+%test if CPP peak latency deviates significantly from time of response
+vdat = squeeze(mean(CPP(:,1:2,:),2)); %response-locked CPP on valid trials
+[~, peaktimes(:,1)] = max(vdat,[],2); %get index of peak
+idat = squeeze(mean(CPP(:,3:4,:),2)); %response-locked CPP on valid trials
+[~, peaktimes(:,2)]  = max(idat,[],2); %get index of peak
+
+%convert to ms (instead of index)
+for subi = 1:size(vdat,1)
+    peaktimes(subi,1) = rtime(peaktimes(subi,1));
+    peaktimes(subi,2) = rtime(peaktimes(subi,2));
+end
+
+%compare the peak latency for valid and invalid trials
+[~, p] = permtest(peaktimes(:,1),peaktimes(:,2),10000);
+[~, ~, ~, stats] = ttest(peaktimes(:,1),peaktimes(:,2)); %get t-statistic to get bayes factor
+bf = t1smpbf(stats.tstat,21);
+disp(['Response-locked CPP peak latency comparison of valid versus invalid trials: p = ' num2str(p) ', BF = ' num2str(bf)]) 
+
 %% plot the trial-average estimated CPP slopes (valid versus invalid)
 
 %plot the estimated CPP slopes

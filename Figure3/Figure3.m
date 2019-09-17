@@ -8,6 +8,8 @@ homedir = mfilename('fullpath');
 funcdir = [homedir(1:end-15) 'functions'];
 addpath(genpath(funcdir))
 
+eeglab,close
+
 %% load the data
 
 %The variable CPP contains the subject-level data, and is of size 21

@@ -166,7 +166,7 @@ shg
 hold on
 plot([-10 90],[-10 90],'k--')
 axis square
-xlabel('T_{er} from model: invalid - valid (ms)')
+xlabel('T_{er}: invalid - valid (ms)')
 ylabel('RT: invalid - valid (ms)')
 
 %correlate and get bayes factor for difference between conditions
