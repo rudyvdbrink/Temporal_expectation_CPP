@@ -51,8 +51,8 @@ load data.mat
 c       = 1.0;
 numtr   = 10000;
 simdata = zeros(size(modeldata,1),2,2);
-qm      = zeros(size(modeldata,1),4,5);
-nm       = zeros(size(qm));
+qm      = zeros(size(modeldata,1),4,5); % quintile values
+nm       = zeros(size(qm)); % cumulative probability
 for subi = 1:size(modeldata,1)
     resp = diffProcess('numTr',numtr,'c',c,'a',modeldata(subi,end),'v',modeldata(subi,3),'Ter',modeldata(subi,1));
     simdata(subi,1,1) = squeeze(mean(resp(resp(:,2)==1 ,1))); %valid, easy 
@@ -109,7 +109,7 @@ set(gca,'tickdir','out','ytick',0:.2:1,'ylim',[0 1],'fontsize',18,'linewidth',1)
 
 
 
-%% Make scatter plot of model and data
+%% Make scatter plot of model and data (mean RT)
 
 subplot(2,3,3)
 
@@ -141,21 +141,6 @@ box off
 xlabel('RT model (ms)')
 ylabel('RT data (ms)')
 
-%test if the slope of the least squares regression line falls within the
-%95% confidence interval of a bootstrapped null distribution (i.e. if it is
-%close to the identity line)
-nboots = 10000; %number of iterations for bootstrapping
-cdat = [squeeze(simdata(:,condi)) bhvdat(:,condi)]; %the data for bootstrapping
-P_null = zeros(nboots,2); %reserve some memory
-for bi = 1:nboots   
-    cdat_null    = cdat(randsample(1:size(cdat,1),size(cdat,1),1),:); %bootstrapped data (sampled with replacement)
-    P_null(bi,:) = polyfit(cdat_null(:,1),cdat_null(:,2),1); %fitted least squares regression line   
-end
-h = P(1) > prctile(P_null(:,1),5) &&  P(1) < prctile(P_null(:,1),95); %test if the observed value falls within the 95% confidence interval
-
-if h
-    disp(['Slope of least squares regression (' num2str(P(1)) ') line fell within the 95% CI of a bootstrapped null distribution'])
-end
 
 %% Plot correlation between model effect of validity on Ter, and real effect of validity on RT
 
@@ -189,6 +174,32 @@ ylabel('RT: invalid - valid (ms)')
 bf = t1smpbf(stats.tstat,21);
 [r, p] = corr(a,b);
 title(['r = ' num2str(round(r*1000)/1000) ', p ' num2str(round(p*1000)/1000) ', BF = ' num2str(round(bf*1000)/1000)])
+
+%test if the slope of the least squares regression line falls within the
+%95% confidence interval of a bootstrapped null distribution (i.e. if it is
+%close to the identity line)
+nboots = 10000; %number of iterations for bootstrapping
+cdat = [a b]; %the data for bootstrapping
+P_null = zeros(nboots,2); %reserve some memory
+for bi = 1:nboots   
+    cdat_null    = cdat(randsample(1:size(cdat,1),size(cdat,1),1),:); %bootstrapped data (sampled with replacement)
+    P_null(bi,:) = polyfit(cdat_null(:,1),cdat_null(:,2),1); %fitted least squares regression line   
+end
+h = P(1) > prctile(P_null(:,1),5) && P(1) < prctile(P_null(:,1),95); %test if the observed value falls within the 95% confidence interval
+
+if h
+    disp(['Slope of least squares regression (' num2str(P(1)) ') line fell within the 95% CI of a bootstrapped null distribution'])
+end
+
+
+% %make a figure of the null distribution and observed value
+% [n, x] = hist(P_null(:,1),100);
+% figure
+% bar(x,n/sum(n)*100,'EdgeColor','none')
+% hold on
+% plot([P(1) P(1)] , [0 8],'k--')
+% plot([prctile(P_null(:,1),5)  prctile(P_null(:,1),5) ] , [0 8],'r--')
+% plot([prctile(P_null(:,1),95) prctile(P_null(:,1),95)] , [0 8],'r--')
 
  
 %% load the posteriors, make histograms, and calculate p-values
