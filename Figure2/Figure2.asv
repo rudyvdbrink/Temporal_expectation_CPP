@@ -44,12 +44,12 @@ addpath(genpath(homedir(1:end-7))); %folder where this script is stored
 
 % Each row in the bhvdat matrix is a participant.
 
-%'qd' contains the real data quantile values for the quantile probability 
+%qd contains the real data quantile values for the quantile probability 
 %plot. It is of size N (participants) by 4 (conditions) by 5 (quantiles).
 %For condition labels, see variable 'conditions'. 
 
-%'nd' contains the cumulative RT probability per quantile scaled by accuracy
-%(real data) and is of the same dimensionality as qd.
+%nd contains the cumulative RT probability per quantile scaled by accuracy
+%(real data)
 
 load data.mat
 
