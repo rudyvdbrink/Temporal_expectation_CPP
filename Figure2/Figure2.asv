@@ -44,19 +44,19 @@ addpath(genpath(homedir(1:end-7))); %folder where this script is stored
 
 % Each row in the bhvdat matrix is a participant.
 
-%qd contains the real data quantile values for the quantile probability 
+%'qd' contains the real data quantile values for the quantile probability 
 %plot. It is of size N (participants) by 4 (conditions) by 5 (quantiles).
 %For condition labels, see variable 'conditions'. 
 
-%nd contains the cumulative RT probability per quantile scaled by accuracy
-%(real data)
+%'nd' contains the cumulative RT probability per quantile scaled by accuracy
+%(real data) and is of the same dimensionality as qd.
 
 load data.mat
 
 %% Simulate behavioral data using the model parameters (this can take a few minutes)
 
 c       = 1.0;
-numtr   = 10000;
+numtr   = 25000;
 simdata = zeros(size(modeldata,1),2,2);
 qm      = zeros(size(modeldata,1),4,5); % quintile values
 nm       = zeros(size(qm)); % cumulative probability
@@ -206,6 +206,19 @@ end
 % plot([P(1) P(1)] , [0 8],'k--')
 % plot([prctile(P_null(:,1),5)  prctile(P_null(:,1),5) ] , [0 8],'r--')
 % plot([prctile(P_null(:,1),95) prctile(P_null(:,1),95)] , [0 8],'r--')
+
+
+a = squeeze(mean(modeldata(:,[4 6]),2)) -  squeeze(mean(modeldata(:,[3 5]),2));
+b = mean(bhvdat(:,[2 4]),2)-mean(bhvdat(:,[1 3]),2); %invalid versus valid RT
+
+[r, p] = corr(a,b);
+disp(['Correlation between effect of difficulty on v, and on RT: r = ' num2str(r) ', p ' num2str(p) ])
+
+[r, p] = corr(a,b);
+a = squeeze(mean(modeldata(:,3:4]),2)) -  squeeze(mean(modeldata(:,[3 5]),2));
+b = mean(bhvdat(:,3:4),2)-mean(bhvdat(:,1:2),2); %invalid versus valid RT
+
+  
  
 %% load the posteriors, make histograms, and calculate p-values
 

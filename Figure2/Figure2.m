@@ -206,6 +206,18 @@ end
 % plot([P(1) P(1)] , [0 8],'k--')
 % plot([prctile(P_null(:,1),5)  prctile(P_null(:,1),5) ] , [0 8],'r--')
 % plot([prctile(P_null(:,1),95) prctile(P_null(:,1),95)] , [0 8],'r--')
+
+
+%% correlate effect of difficulty and validity on drift rate
+a = squeeze(mean(modeldata(:,[4 6]),2)) -  squeeze(mean(modeldata(:,[3 5]),2));
+b = mean(bhvdat(:,[2 4]),2)-mean(bhvdat(:,[1 3]),2); %invalid versus valid RT
+[r, p] = corr(a,b);
+disp(['Correlation between effect of difficulty on v, and on RT: r = ' num2str(r) ', p ' num2str(p) ])
+
+[r, p] = corr(a,b);
+a = squeeze(mean(modeldata(:,3:4),2)) -  squeeze(mean(modeldata(:,1:2),2));
+b = mean(bhvdat(:,3:4),2)-mean(bhvdat(:,1:2),2); %invalid versus valid RT
+disp(['Correlation between effect of cue validity on v, and on RT: r = ' num2str(r) ', p ' num2str(p) ])  
  
 %% load the posteriors, make histograms, and calculate p-values
 
