@@ -78,7 +78,7 @@ simdata = simdata * 1000; %scale to ms (instead of seconds)
 
 %% make defective cumulative quantile probability plot
 figure
-subplot(2,3,2)
+subplot(2,3,1)
 
 plotcolors = parula(4);
 
@@ -111,12 +111,12 @@ set(gca,'tickdir','out','ytick',0:.2:1,'ylim',[0 1],'fontsize',18,'linewidth',1)
 
 %% Make scatter plot of model and data (mean RT)
 
-subplot(2,3,3)
+subplot(2,3,2)
 
 r = zeros(4,1);
 p = zeros(size(r));
 for condi = 1:4    
-    plot(squeeze(simdata(:,condi)),bhvdat(:,condi),'o','color',plotcolors(condi,:),'MarkerFaceColor',plotcolors(condi,:))
+    plot(squeeze(simdata(:,condi)),bhvdat(:,condi),'wo','MarkerFaceColor',plotcolors(condi,:),'markersize',10)
     hold on
     [r(condi), p(condi)] = corr(squeeze(simdata(:,condi)),bhvdat(:,condi)); %correlate data and model RT    
     disp(['Correlation between model and data for ' conditions{condi} ' trials: r = ' num2str(r(condi)) ', p = ' num2str(p(condi))])
@@ -148,8 +148,8 @@ a = (modeldata(:,2)-modeldata(:,1))*1000; %invalid versus valid Ter
 b = mean(bhvdat(:,3:4),2)-mean(bhvdat(:,1:2),2); %invalid versus valid RT
 
 %plot model versus data (scatter plot)
-subplot(2,3,1)
-plot(a,b,'wo','MarkerFaceColor','k')
+subplot(2,3,3)
+plot(a,b,'wo','MarkerFaceColor','k','markersize',10)
 hold on
 
 %get least squares regression line and plot
