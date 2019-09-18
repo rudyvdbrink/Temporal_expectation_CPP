@@ -56,7 +56,7 @@ load data.mat
 %% Simulate behavioral data using the model parameters (this can take a few minutes)
 
 c       = 1.0;
-numtr   = 10000;
+numtr   = 25000;
 simdata = zeros(size(modeldata,1),2,2);
 qm      = zeros(size(modeldata,1),4,5); % quintile values
 nm       = zeros(size(qm)); % cumulative probability
