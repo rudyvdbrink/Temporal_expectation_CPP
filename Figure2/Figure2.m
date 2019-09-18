@@ -209,6 +209,7 @@ end
 
 
 %% correlate effect of difficulty and validity on drift rate
+
 a = squeeze(mean(modeldata(:,[4 6]),2)) -  squeeze(mean(modeldata(:,[3 5]),2));
 b = mean(bhvdat(:,[2 4]),2)-mean(bhvdat(:,[1 3]),2); %invalid versus valid RT
 [r, p] = corr(a,b);
