@@ -198,12 +198,12 @@ if h
     disp(['95% CI of least squares regression line (slope = ' num2str(P(1)) ') overlaps with slope of the identity line'])
 end
 
-% %make a plot of the null distribution and observed value
+% %make a plot of the null distribution and its 95% CI, and value of identity line
 % [n, x] = hist(P_null(:,1),100);
 % figure
 % bar(x,n/sum(n)*100,'EdgeColor','none')
 % hold on
-% plot([P(1) P(1)] , [0 8],'k--')
+% plot([1 1] , [0 8],'k--')
 % plot([prctile(P_null(:,1),5)  prctile(P_null(:,1),5) ] , [0 8],'r--')
 % plot([prctile(P_null(:,1),95) prctile(P_null(:,1),95)] , [0 8],'r--')
 
