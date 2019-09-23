@@ -205,7 +205,7 @@ end
 % hold on
 % plot([1 1] , [0 8],'k--')
 % plot([prctile(P_null(:,1),5)  prctile(P_null(:,1),5) ] , [0 8],'r--')
-% plot([prctile(P_null(:,1),95) prctile(P_null(:,1),95)] , [0 8],'r--')
+% plot([prctile(P_null(:,1),95) prctile(P_null(:,1),95)] , [0 8],'r--') 
 
 
 %% correlate effect of difficulty and validity on drift rate
