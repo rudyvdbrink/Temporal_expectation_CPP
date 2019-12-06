@@ -142,7 +142,7 @@ diff = mean(mean(binRT(:,1)) - mean(binRT(:,end))); %the observed value
 p = sum(diff >= permdist(1,:)) / size(permdist,2); %compute p value
 title(['RT: p = ' num2str(p)])
 
-%Onset binned by alpha power
+%Onset binned by alpha power 
 subplot(1,3,2)
 hold on
 for bini = 1:nbins
