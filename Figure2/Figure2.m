@@ -254,7 +254,7 @@ xlim([0.23 0.33]*1000)
 title('T_{er}')
 set(gca,'tickdir','out','fontsize',18,'linewidth',1)
 xlabel('Parameter estimate (ms)')
-ylabel('Frequency of occurance (%)')
+ylabel('Frequency of occurrence (%)')
 
 %validity effect on non-decision time
 p = sum(tvalid > tinvalid) / length(tvalid);
@@ -295,7 +295,7 @@ ylim([0 0.4])
 set(gca,'tickdir','out','fontsize',18,'linewidth',1)
 title('v')
 xlabel('Parameter estimate (a.u.)')
-ylabel('Frequency of occurance (%)')
+ylabel('Frequency of occurrence (%)')
 
 
 %validity effect on drift rate, collapsed across difficulty conditions (not
