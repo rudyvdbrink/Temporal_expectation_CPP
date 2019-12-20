@@ -64,7 +64,7 @@ plot([f2plot(end) f2plot(end)],[0 .6],'k--')
 
 %topographical plot
 figure
-topoplot(squeeze(mean(topopower)),chanlocs,'style','map','electrodes','on');
+topoplot(squeeze(mean(topopower)),chanlocs,'style','map','electrodes','off');
 set(gca,'clim',[min(squeeze(mean(topopower))) max(squeeze(mean(topopower)))])
 
 %% Plot time-frequency comparison of valid versus invalid trials
