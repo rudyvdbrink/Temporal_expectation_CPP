@@ -2,13 +2,13 @@ clear
 close all
 clc
 
+eeglab,close
+
 %add functions
 %in addition to these functions you'll need EEGLAB
 homedir = mfilename('fullpath');
 funcdir = [homedir(1:end-15) 'functions'];
 addpath(genpath(funcdir))
-
-eeglab,close
 
 %% load the data
 
