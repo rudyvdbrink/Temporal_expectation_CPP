@@ -76,6 +76,11 @@ addpath(genpath(funcdir))
 
 load data.mat
 
+%% plotting options
+
+cols = [0 0 0; 1 0 0];
+mc = 0;
+
 %% Plot trial-average CPP for valid and invalid conditions (stimulus locked)
 
 figure
@@ -163,10 +168,12 @@ disp(['Response-locked CPP peak latency comparison of valid versus invalid trial
 subplot(2,5,5)
 hold on
 
-bar(1,mean(mean(ta_slopes(:,1:2),2)),'FaceColor','k','EdgeColor','none')
-bar(2,mean(mean(ta_slopes(:,3:4),2)),'FaceColor','r','EdgeColor','none')
-wse([mean(ta_slopes(:,1:2),2) mean(ta_slopes(:,3:4),2)],1); %plot error bars
-ylim([0.05 0.11])
+% bar(1,mean(mean(ta_slopes(:,1:2),2)),'FaceColor','k','EdgeColor','none')
+% bar(2,mean(mean(ta_slopes(:,3:4),2)),'FaceColor','r','EdgeColor','none')
+% wse([mean(ta_slopes(:,1:2),2) mean(ta_slopes(:,3:4),2)],1); %plot error bars
+% ylim([0.05 0.11])
+indata = [mean(ta_slopes(:,1:2),2) mean(ta_slopes(:,3:4),2)];
+wsplot(indata,mc,cols)
 set(gca,'xtick',[],'tickdir','out')
 ylabel('Slope (\muV / m^2 / T_s)')
 set(gca,'fontsize',18)
@@ -246,10 +253,13 @@ ylim([-10 30])
 subplot(2,5,10)
 hold on
 
-bar(1,mean(mean(ta_slopes(:,1:2:7),2)),'FaceColor','k','EdgeColor','none')
-bar(2,mean(mean(ta_slopes(:,2:2:8),2)),'FaceColor','r','EdgeColor','none')
-wse([mean(ta_slopes(:,1:2:7),2) mean(ta_slopes(:,2:2:8),2)],1); %plot error bars
-ylim([0.05 0.11])
+% bar(1,mean(mean(ta_slopes(:,1:2:7),2)),'FaceColor','k','EdgeColor','none')
+% bar(2,mean(mean(ta_slopes(:,2:2:8),2)),'FaceColor','r','EdgeColor','none')
+% wse([mean(ta_slopes(:,1:2:7),2) mean(ta_slopes(:,2:2:8),2)],1); %plot error bars
+% ylim([0.05 0.11])
+indata = [mean(ta_slopes(:,1:2:7),2) mean(ta_slopes(:,2:2:8),2)];
+wsplot(indata,mc,cols)
+
 set(gca,'xtick',[],'tickdir','out')
 ylabel('Slope (\muV / m^2 / T_s)')
 set(gca,'fontsize',18)
@@ -267,11 +277,13 @@ figure
 
 %effect of cue validity on onset
 subplot(2,4,1)
-hold on
-bar(1,mean(mean(st_onsets(:,1:2),2)),'FaceColor','k','EdgeColor','none');
-bar(2,mean(mean(st_onsets(:,3:4),2)),'FaceColor','r','EdgeColor','none');
-wse([mean(st_onsets(:,1:2),2) mean(st_onsets(:,3:4),2)],1); 
-ylim([100 130])
+% hold on
+% bar(1,mean(mean(st_onsets(:,1:2),2)),'FaceColor','k','EdgeColor','none');
+% bar(2,mean(mean(st_onsets(:,3:4),2)),'FaceColor','r','EdgeColor','none');
+% wse([mean(st_onsets(:,1:2),2) mean(st_onsets(:,3:4),2)],1); 
+indata = [mean(st_onsets(:,1:2),2) mean(st_onsets(:,3:4),2)];
+wsplot(indata,mc,cols)
+% ylim([100 130])
 diff = mean(mean(st_onsets(:,1:2),2) - mean(st_onsets(:,3:4),2)); %the observed value
 p = sum(diff >= permdist(5,:)) / size(permdist,2); %compute p value
 title([{'Effect of cue validity '} {['on onset p=' num2str(p)]}])
@@ -284,10 +296,12 @@ set(gca,'fontsize',18)
 %effect of cue validity on onset variability
 subplot(2,4,2)
 hold on
-bar(1,mean(mean(st_onsetvar(:,1:2),2)),'FaceColor','k','EdgeColor','none');
-bar(2,mean(mean(st_onsetvar(:,3:4),2)),'FaceColor','r','EdgeColor','none');
-wse([mean(st_onsetvar(:,1:2),2) mean(st_onsetvar(:,3:4),2)],1);
-ylim([100 130])
+% bar(1,mean(mean(st_onsetvar(:,1:2),2)),'FaceColor','k','EdgeColor','none');
+% bar(2,mean(mean(st_onsetvar(:,3:4),2)),'FaceColor','r','EdgeColor','none');
+% wse([mean(st_onsetvar(:,1:2),2) mean(st_onsetvar(:,3:4),2)],1);
+% ylim([100 130])
+indata = [mean(st_onsetvar(:,1:2),2) mean(st_onsetvar(:,3:4),2)];
+wsplot(indata,mc,cols)
 diff = mean(mean(st_onsetvar(:,1:2),2) - mean(st_onsetvar(:,3:4),2)); %the observed value
 p = sum(diff >= permdist(6,:)) / size(permdist,2); %compute p value
 title([{'Effect of cue validity '} {['on onset variability p=' num2str(p)]}])
@@ -295,15 +309,17 @@ set(gca,'tickdir','out','xtick',1:2,'xticklabel',{'Valid', 'Invalid'} )
 box off
 ylabel('Onset variability (ms)')
 set(gca,'fontsize',18)
-ylim([100 130])
 
 
 %effect of cue validity on slope
 subplot(2,4,3)
 hold on
-bar(1,mean(mean(st_slopes(:,1:2),2)),'FaceColor','k','EdgeColor','none');
-bar(2,mean(mean(st_slopes(:,3:4),2)),'FaceColor','r','EdgeColor','none');
-wse([mean(st_slopes(:,1:2),2) mean(st_slopes(:,3:4),2)],1); 
+% bar(1,mean(mean(st_slopes(:,1:2),2)),'FaceColor','k','EdgeColor','none');
+% bar(2,mean(mean(st_slopes(:,3:4),2)),'FaceColor','r','EdgeColor','none');
+% wse([mean(st_slopes(:,1:2),2) mean(st_slopes(:,3:4),2)],1); 
+% ylim([0.05 .09])
+indata = [mean(st_slopes(:,1:2),2) mean(st_slopes(:,3:4),2)];
+wsplot(indata,mc,cols)
 diff = mean(mean(st_slopes(:,1:2),2) - mean(st_slopes(:,3:4),2)); %the observed value
 p = sum(diff <= permdist(7,:)) / size(permdist,2); %compute p value
 title([{'Effect of cue validity '} {['on slope p=' num2str(p)]}])
@@ -311,15 +327,17 @@ set(gca,'tickdir','out','xtick',1:2,'xticklabel',{'Valid', 'Invalid'})
 box off
 ylabel('Slope (\muV / m^2 / T_s)')
 set(gca,'fontsize',18)
-ylim([0.05 .09])
 
 
 %effect of difficulty on slope
 subplot(2,4,4)
 hold on
-bar(1,mean(mean(st_slopes(:,1:2:7),2)),'FaceColor','k','EdgeColor','none');
-bar(2,mean(mean(st_slopes(:,2:2:8),2)),'FaceColor','r','EdgeColor','none');
-wse([mean(st_slopes(:,1:2:7),2) mean(st_slopes(:,2:2:8),2)],1); 
+% bar(1,mean(mean(st_slopes(:,1:2:7),2)),'FaceColor','k','EdgeColor','none');
+% bar(2,mean(mean(st_slopes(:,2:2:8),2)),'FaceColor','r','EdgeColor','none');
+% wse([mean(st_slopes(:,1:2:7),2) mean(st_slopes(:,2:2:8),2)],1); 
+% ylim([0.05 .09])
+indata = [mean(st_slopes(:,1:2:7),2) mean(st_slopes(:,2:2:8),2)];
+wsplot(indata,mc,cols)
 diff = mean(mean(st_slopes(:,1:2:7),2) - mean(st_slopes(:,2:2:8),2)); %the observed value
 p = sum(diff <= permdist(8,:)) / size(permdist,2); %compute p value
 title([{'Effect of difficulty'} {['on slope p=' num2str(p)]}])
@@ -327,4 +345,3 @@ set(gca,'tickdir','out','xtick',1:2,'xticklabel',{'Easy', 'Difficult'})
 box off
 ylabel('Slope (\muV / m^2 / T_s)')
 set(gca,'fontsize',18)
-ylim([0.05 .09])
