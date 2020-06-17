@@ -43,16 +43,19 @@ eeglab,close
 load data.mat
 
 
-%% analysis setting
+%% analysis and plotting setting
 
 f2plot = 9:12; %the alpha band
 npermutes = 10000; %number of iterations for permutation test
+mc = 1; %mean center plots
 
 %% Plot amplitude spectrum and topographical plot of alpha power
 
 %amplitude spectrum
 figure
-plot(fft_f,mean(ampspect),'linewidth',2); 
+% plot(fft_f,mean(ampspect),'linewidth',2); 
+shadedErrorBar(fft_f,mean(ampspect),std(ampspect)./sqrt(size(ampspect,1)),{'linewidth',2}); 
+
 xlabel('Frequency (Hz)')
 ylabel('Amplitude (% of total)')
 set(gca,'tickdir','out')
@@ -97,6 +100,13 @@ hold on
 box off
 plot(t,squeeze(mean(squeeze(mean(mean(tfr(:,1:2,f2plot,:),2),3)))),'k') %plot valid condition
 plot(t,squeeze(mean(squeeze(mean(mean(tfr(:,3:4,f2plot,:),2),3)))),'r') %plot invalid condition
+%get within subject error bars
+eb = zeros(size(tfr,4),2);
+for ti = 1:size(tfr,4)
+    eb(ti,:) = wse([squeeze(mean(mean(tfr(:,1:2,f2plot,ti),2),3)) squeeze(mean(mean(tfr(:,3:4,f2plot,ti),2),3))]);
+end
+shadedErrorBar(t,squeeze(mean(squeeze(mean(mean(tfr(:,1:2,f2plot,:),2),3)))), eb(:,1), 'k'); %plot valid condition
+shadedErrorBar(t,squeeze(mean(squeeze(mean(mean(tfr(:,3:4,f2plot,:),2),3)))), eb(:,2), 'r'); %plot invalid condition
 h = permtest(squeeze(mean(mean(tfr(:,1:2,f2plot,:),2),3)),squeeze(mean(mean(tfr(:,3:4,f2plot,:),2),3)),npermutes,0.05,'left');
 plot(t(h),140,'k.')
 set(gca,'tickdir','out','fontsize',18)
@@ -109,8 +119,15 @@ xlabel('Peri-stimulus time (ms)')
 
 figure
 hold on
+
+eb = zeros(size(CPP,3),3);
+for ti = 1:size(eb,1)
+    eb(ti,:) = wse(squeeze(CPP(:,:,ti)));
+end
+
 for bini = 1:nbins
-    plot(t_cpp*1000,squeeze(mean(CPP(:,bini,:)))','color',plotcolors(bini,:))
+    m  = squeeze(mean(CPP(:,bini,:)))';
+    shadedErrorBar(t_cpp*1000,m,eb(:,bini),{'color',plotcolors(bini,:)});
 end
 plot([-200 800],[0 0],'k--')
 plot([0 0],[-10 30],'k--')
@@ -121,37 +138,27 @@ set(gca,'FontSize',18)
 xlabel('Peri-stimulus time (ms)')
 ylabel('Amplitude (\muV / m^2)')
 
-
 %% Make bar plots of RT and CPP parameters binned by alpha power
 
 figure
 
 %RT binned by alpha power
 subplot(1,3,1)
-hold on
-for bini = 1:nbins
-    bar(bini,mean(binRT(:,bini)),'EdgeColor','none','FaceColor',plotcolors(bini,:))
-end
-wse(binRT,1);
+wsplot(binRT,mc,plotcolors)
 xlabel('Alpha bin')
 ylabel('Response time (ms)')
-ylim([0.45 0.465]*1000)
 box off
-set(gca,'tickdir','out','xtick',1:3,'FontSize',18,'YTick',450:5:465)
+set(gca,'tickdir','out','xtick',1:3,'FontSize',18)
+
 diff = mean(mean(binRT(:,1)) - mean(binRT(:,end))); %the observed value
 p = sum(diff >= permdist(1,:)) / size(permdist,2); %compute p value
 title(['RT: p = ' num2str(p)])
 
 %Onset binned by alpha power
 subplot(1,3,2)
-hold on
-for bini = 1:nbins
-    bar(bini,mean(binonsets(:,bini)),'EdgeColor','none','FaceColor',plotcolors(bini,:))
-end
-wse(binonsets,1);
+wsplot(binonsets,mc,plotcolors)
 xlabel('Alpha bin')
 ylabel('Onset (ms)')
-ylim([100 140])
 box off
 set(gca,'tickdir','out','xtick',1:3,'FontSize',18)
 diff = mean(mean(binonsets(:,1)) - mean(binonsets(:,end))); %the observed value
@@ -160,16 +167,12 @@ title(['Onset: p = ' num2str(p)])
 
 %Slope binned by alpha power
 subplot(1,3,3)
-hold on
-for bini = 1:nbins
-    bar(bini,mean(binslopes(:,bini)),'EdgeColor','none','FaceColor',plotcolors(bini,:))
-end
-wse(binslopes,1);
+wsplot(binslopes,mc,plotcolors)
 xlabel('Alpha bin')
 ylabel('Slope (\muV / m^2 / T_s)')
-ylim([0.04 0.052])
+ylim([0.03 0.06])
 box off
-set(gca,'tickdir','out','xtick',1:3,'FontSize',18,'FontSize',18,'YTick',0.04:0.004:0.052)
+set(gca,'tickdir','out','xtick',1:3,'FontSize',18,'FontSize',18)
 diff = mean(mean(binslopes(:,1)) - mean(binslopes(:,end))); %the observed value
 p = sum(diff <= permdist(3,:)) / size(permdist,2); %compute p value
 title(['Slope: p = ' num2str(p)])
