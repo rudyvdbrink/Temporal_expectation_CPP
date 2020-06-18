@@ -51,90 +51,75 @@ disp(['Average cueing effect for difficult long interval trials: ' num2str(mean(
 
 %% make figure
 
+xo = 0.05; %x-offxet for plotting
 figure
 
 %RT
 subplot(2,2,1)
 hold on
 title('Short interval trials')
-plot([1 2],mean(data(:,[1 3])),'ko-','linewidth',3,'markerfacecolor','k')
-plot([1 2],mean(data(:,[2 4])),'ks--','linewidth',3,'markerfacecolor','k')
+boxplot(data(:,[1 3]),'plotstyle','compact', 'color','k', 'positions' ,[1 2]-xo, 'medianstyle','line')
+boxplot(data(:,[2 4]),'plotstyle','compact', 'color',[.5 .5 .5], 'positions' ,[1 2]+xo, 'medianstyle','line')
+plot([1 2]-xo,mean(data(:,[1 3])),'ko-','linewidth',3,'markerfacecolor','k')
+plot([1 2]+xo,mean(data(:,[2 4])),'s--','linewidth',3,'markerfacecolor',[.5 .5 .5],'color',[.5 .5 .5])
 xlim([0 3])
 set(gca,'xtick',[1 2],'xticklabel', {'valid' , 'invalid'},'tickdir','out','fontsize',18,'linewidth',1)
 xlabel('cue validity')
 ylabel('RT (ms)')
  
 axis square
-s = std(data(:,[1 3])-[mean(data(:,[1 3]),2) mean(data(:,[1 3]),2)])/sqrt(size(data,1));
-m = mean(data(:,[1 3]));
-plot([1 2; 1 2], [m-s; m+s;],'k','linewidth',3);
-
-s = std(data(:,[2 4])-[mean(data(:,[2 4]),2) mean(data(:,[2 4]),2)]+10)/sqrt(size(data,1));
-m = mean(data(:,[2 4]));
-plot([1 2; 1 2], [m-s; m+s;],'k','linewidth',3);
-ylim([420 540])
+ylim([300 700])
+box off
 
 subplot(2,2,2)
 hold on
 title('Long interval trials')
-plot([1 2],mean(data(:,[5 7])),'ko-','linewidth',3,'markerfacecolor','k')
-plot([1 2],mean(data(:,[6 8])),'ks--','linewidth',3,'markerfacecolor','k')
+boxplot(data(:,[5 7]),'plotstyle','compact', 'color','k', 'positions' ,[1 2]-xo, 'medianstyle','line')
+boxplot(data(:,[6 8]),'plotstyle','compact', 'color',[.5 .5 .5], 'positions' ,[1 2]+xo, 'medianstyle','line')
+plot([1 2]-xo,mean(data(:,[5 7])),'ko-','linewidth',3,'markerfacecolor','k')
+plot([1 2]+xo,mean(data(:,[6 8])),'s--','linewidth',3,'markerfacecolor',[.5 .5 .5],'color',[.5 .5 .5])
 xlim([0 3])
 set(gca,'xtick',[1 2],'xticklabel', {'valid' , 'invalid'},'tickdir','out','fontsize',18,'linewidth',1)
 xlabel('cue validity')
 ylabel('RT (ms)')
 
 axis square
-s = std(data(:,[5 7])-[mean(data(:,[5 7]),2) mean(data(:,[5 7]),2)])/sqrt(size(data,1));
-m = mean(data(:,[5 7]));
-plot([1 2; 1 2], [m-s; m+s;],'k','linewidth',3);
-
-s = std(data(:,[6 8])-[mean(data(:,[6 8]),2) mean(data(:,[6 8]),2)])/sqrt(size(data,1));
-m = mean(data(:,[6 8]));
-plot([1 2; 1 2], [m-s; m+s;],'k','linewidth',3);
-ylim([420 540])
+ylim([300 700])
+box off
 
 %accuracy
 subplot(2,2,3)
 hold on
 title('Short interval trials')
-plot([1 2],100-mean(data(:,[1 3]+8)),'ko-','linewidth',3,'markerfacecolor','k')
-plot([1 2],100-mean(data(:,[2 4]+8)),'ks--','linewidth',3,'markerfacecolor','k')
+boxplot(100-data(:,[1 3]+8),'plotstyle','compact', 'color','k', 'positions' ,[1 2]-xo, 'medianstyle','line')
+boxplot(100-data(:,[2 4]+8),'plotstyle','compact', 'color',[.5 .5 .5], 'positions' ,[1 2]+xo, 'medianstyle','line')
+plot([1 2]-xo,100-mean(data(:,[1 3]+8)),'ko-','linewidth',3,'markerfacecolor','k')
+plot([1 2]+xo,100-mean(data(:,[2 4]+8)),'s--','linewidth',3,'markerfacecolor',[.5 .5 .5],'color',[.5 .5 .5])
 xlim([0 3])
 set(gca,'xtick',[1 2],'xticklabel', {'valid' , 'invalid'},'tickdir','out','fontsize',18,'linewidth',1)
 xlabel('cue validity')
 ylabel('Errors (%)')
 
 axis square
-s = std(data(:,[1 3]+8)-[mean(data(:,[1 3]+8),2) mean(data(:,[1 3]+8),2)])/sqrt(size(data,1));
-m = mean(100-data(:,[1 3]+8));
-plot([1 2; 1 2], [m-s; m+s;],'k','linewidth',3);
-
-s = std(data(:,[2 4]+8)-[mean(data(:,[2 4]+8),2) mean(data(:,[2 4]+8),2)])/sqrt(size(data,1));
-m = mean(100-data(:,[2 4]+8));
-plot([1 2; 1 2], [m-s; m+s;],'k','linewidth',3);
-ylim([2 10])
+ylim([0 25])
+box off
 
 
 subplot(2,2,4)
 hold on
 title('Long interval trials')
-plot([1 2],100-mean(data(:,[5 7]+8)),'ko-','linewidth',3,'markerfacecolor','k')
-plot([1 2],100-mean(data(:,[6 8]+8)),'ks--','linewidth',3,'markerfacecolor','k')
+boxplot(100-data(:,[5 7]+8),'plotstyle','compact', 'color','k', 'positions' ,[1 2]-xo, 'medianstyle','line')
+boxplot(100-data(:,[6 8]+8),'plotstyle','compact', 'color',[.5 .5 .5], 'positions' ,[1 2]+xo, 'medianstyle','line')
+plot([1 2]-xo,100-mean(data(:,[5 7]+8)),'ko-','linewidth',3,'markerfacecolor','k')
+plot([1 2]+xo,100-mean(data(:,[6 8]+8)),'s--','linewidth',3,'markerfacecolor',[.5 .5 .5],'color',[.5 .5 .5])
 xlim([0 3])
 set(gca,'xtick',[1 2],'xticklabel', {'valid' , 'invalid'},'tickdir','out','fontsize',18,'linewidth',1)
 xlabel('cue validity')
 ylabel('Errors (%)')
 
 axis square
-s = std(data(:,[5 7]+8)-[mean(data(:,[5 7]+8),2) mean(data(:,[5 7]+8),2)])/sqrt(size(data,1));
-m = mean(100-data(:,[5 7]+8));
-plot([1 2; 1 2], [m-s; m+s;],'k','linewidth',3);
-
-s = std(data(:,[6 8]+8)-[mean(data(:,[6 8]+8),2) mean(data(:,[6 8]+8),2)])/sqrt(size(data,1));
-m = mean(100-data(:,[6 8]+8));
-plot([1 2; 1 2], [m-s; m+s;],'k','linewidth',3);
-ylim([2 10])
+ylim([0 25])
+box off
 
 %% test significance of cueing effect and difficulty effect
 
