@@ -4,7 +4,6 @@ close all
 clc
 
 %add functions
-%you will need the statistics toolbox to run this code
 homedir = mfilename('fullpath');
 funcdir = [homedir(1:end-15) 'functions'];
 addpath(genpath(funcdir))
@@ -101,7 +100,7 @@ hold on
 for subi = 1:size(v,1)
     plot(onsets(subi),Ter(subi), 'o','color', [c(subi), 0.5 , 1-c(subi)], 'markerfacecolor',[c(subi), 0.5 , 1-c(subi)],'LineWidth',3)
 end
-set(gca,'tickdir','out','fontsize',18,'linewidth',1)
+set(gca,'tickdir','out','fontsize',12,'linewidth',1)
 
 %% CPP slope - v
 
@@ -119,7 +118,7 @@ hold on
 for subi = 1:size(v,1)
     plot(slopes(subi),v(subi), 'o','color', [c(subi), 0.5 , 1-c(subi)], 'markerfacecolor',[c(subi), 0.5 , 1-c(subi)],'LineWidth',3)
 end
-set(gca,'tickdir','out','xtick',0.05:0.075:0.2,'ytick',.5:2:4.5,'fontsize',18,'linewidth',1)
+set(gca,'tickdir','out','xtick',0.05:0.075:0.2,'ytick',.5:2:4.5,'fontsize',12,'linewidth',1)
 ylim([0.5 4.5])
 xlim([0.05 0.2])
 
@@ -139,7 +138,7 @@ hold on
 for subi = 1:length(onsets)
     plot(onsets(subi),mRT(subi), 'o', 'color',[c(subi), 0.5 , 1-c(subi)],'LineWidth',3,'MarkerFaceColor',[c(subi), 0.5 , 1-c(subi)] )
 end
-set(gca,'tickdir','out','fontsize',18,'ytick',300:200:700,'linewidth',1) 
+set(gca,'tickdir','out','fontsize',12,'ytick',300:200:700,'linewidth',1) 
 ylim([300 700])
 
 %% slope - RT
@@ -159,7 +158,7 @@ hold on
 for subi = 1:length(onsets)
     plot(slopes(subi),mRT(subi), 'o', 'color',[c(subi), 0.5 , 1-c(subi)],'LineWidth',3,'MarkerFaceColor',[c(subi), 0.5 , 1-c(subi)] )
 end
-set(gca,'tickdir','out','xtick',0.05:0.075:2,'ytick',300:200:700,'fontsize',18,'linewidth',1) 
+set(gca,'tickdir','out','xtick',0.05:0.075:2,'ytick',300:200:700,'fontsize',12,'linewidth',1) 
 ylim([300 700])
 
 %% CPP peak time - RT
@@ -180,5 +179,6 @@ for subi = 1:length(onsets)
 end
 xlim([300 700])
 ylim([300 700])
-set(gca,'tickdir','out','xtick',300:200:700,'ytick',300:200:700,'fontsize',18,'linewidth',1) 
+set(gca,'tickdir','out','xtick',300:200:700,'ytick',300:200:700,'fontsize',12,'linewidth',1) 
+
 
