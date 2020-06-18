@@ -141,7 +141,13 @@ for bini = 1:3
     shadedErrorBar(stime,m,eb(:,bini),{'color',plotcolors(bini,:),'linewidth',3});
 end
 xlim([-200 800])
-ylim([-10 30])
+ylim([-10 30]) 
+
+%plot RTs
+for bini = 1:3
+    plot([squeeze(mean(mean(RTs(:,:,bini)))) squeeze(mean(mean(RTs(:,:,bini))))]*1000,[-10 30],'color',plotcolors(bini,:),'linestyle','--')
+    plot(stime, squeeze(mean(mean(CPP_RT(:,9:end,:,bini),1),2)),'color',plotcolors(bini,:),'linewidth',3)    
+end
 
 %plot onsets (individual subjects)
 indata = binonset;
@@ -164,7 +170,7 @@ plot(squeeze(mean(binonset(:,3))),-8,'o','MarkerFaceColor',plotcolors(3,:))
 disp(['Onset: fast RT vs medium RT bin, p = ' num2str(p) ])
 [~, p] = permtest(binonset(:,1),binonset(:,3),npermutes);
 disp(['Onset: fast RT vs slow RT bin, p = ' num2str(p) ])
-text(250,-5,['p = ' num2str(p)])
+text(400,-5,['p = ' num2str(p)])
 [~, p] = permtest(binonset(:,2),binonset(:,3),npermutes);
 disp(['Onset: medium RT vs slow RT bin, p = ' num2str(p) ])
 
@@ -203,7 +209,7 @@ set(gcf,'color','w')
 disp(['Slope: fast RT vs medium RT bin, p = ' num2str(p) ])
 [~, p] = permtest(binslope(:,1),binslope(:,3),npermutes);
 disp(['Slope: fast RT vs slow RT bin, p = ' num2str(p) ])
-text(2,0.14,['p = ' num2str(p)])
+text(2,0.25,['p = ' num2str(p)])
 [~, p] = permtest(binslope(:,2),binslope(:,3),npermutes);
 disp(['Slope: medium RT vs slow RT bin, p = ' num2str(p) ])
 
