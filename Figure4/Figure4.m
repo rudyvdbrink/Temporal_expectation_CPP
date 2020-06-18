@@ -137,15 +137,20 @@ for ti = 1:size(CPP_RT,3)
 end
 
 for bini = 1:3
-%     plot([squeeze(mean(mean(RTs(:,:,bini)))) squeeze(mean(mean(RTs(:,:,bini))))]*1000,[-10 30],'color',plotcolors(bini,:),'linestyle','--')
-%     plot(stime, squeeze(mean(mean(CPP_RT(:,9:end,:,bini),1),2)),'color',plotcolors(bini,:),'linewidth',3) 
     m  = squeeze(mean(mean(CPP_RT(:,9:end,:,bini),1),2));
     shadedErrorBar(stime,m,eb(:,bini),{'color',plotcolors(bini,:),'linewidth',3});
 end
 xlim([-200 800])
 ylim([-10 30])
 
-%plot onsets
+%plot onsets (individual subjects)
+indata = binonset;
+subcols = repmat(linspace(0.2,0.9,size(indata,1))',1, 3); %colors for the individual subjects
+for si = 1:size(indata,1)
+    plot(indata(si,:)-(squeeze(nanmean(indata(si,:)))*mc) + (nanmean(indata)*mc),[-2 -5 -8 ],'o-','MarkerFaceColor',subcols(si,:),'MarkerEdgeColor','w', 'Color',subcols(si,:))
+end
+
+%plot onsets (group averages)
 eb = std(binonset) / sqrt(size(binonset,1)); %get error bars
 plot( squeeze(mean(binonset(:,1))) - eb(1) : squeeze(mean(binonset(:,1))) + eb(1), zeros(size(squeeze(mean(binonset(:,1))) - eb(1) : squeeze(mean(binonset(:,1))) + eb(1)))-2 , 'color',plotcolors(1,:),'LineWidth',2)
 plot(squeeze(mean(binonset(:,1))),-2,'o','MarkerFaceColor',plotcolors(1,:))
@@ -178,28 +183,22 @@ for ti = 1:size(CPP_RT,3)
 end
 
 for bini = 1:3
-%     plot(rtime, squeeze(mean(mean(CPP_RT(:,1:8,:,bini),1),2)),'color',plotcolors(bini,:),'linewidth',3)    
     m  = squeeze(mean(mean(CPP_RT(:,1:8,:,bini),1),2));
     shadedErrorBar(rtime,m,eb(:,bini),{'color',plotcolors(bini,:),'linewidth',3});
 end
 xlim([-400 100])
 ylim([-10 30])
 
-
 %% plot of CPP onset
 subplot(2,5,10)
 hold on
-% bar(squeeze(mean(binslope))),wse(binslope,1);
-% bar(1,squeeze(mean(binslope(:,1))),'FaceColor',plotcolors(1,:),'EdgeColor','none')
-% bar(2,squeeze(mean(binslope(:,2))),'FaceColor',plotcolors(2,:),'EdgeColor','none')
-% bar(3,squeeze(mean(binslope(:,3))),'FaceColor',plotcolors(3,:),'EdgeColor','none')
 wsplot(binslope,mc,plotcolors)
+set(gca,'tickdir','out','xtick',[],'fontsize',18)
+box off
+ylabel('CPP slope (\muV / m^2 / T_s)')
+set(gcf,'color','w')
 
-
-% wse(binslope,1);
-
-
-%compare and report stats
+%% compare and report stats
 [~, p] = permtest(binslope(:,1),binslope(:,2),npermutes);
 disp(['Slope: fast RT vs medium RT bin, p = ' num2str(p) ])
 [~, p] = permtest(binslope(:,1),binslope(:,3),npermutes);
@@ -208,19 +207,6 @@ text(2,0.14,['p = ' num2str(p)])
 [~, p] = permtest(binslope(:,2),binslope(:,3),npermutes);
 disp(['Slope: medium RT vs slow RT bin, p = ' num2str(p) ])
 
-set(gca,'tickdir','out','xtick',[],'fontsize',18)
-box off
-ylabel('CPP slope (\muV / m^2 / T_s)')
 
-%% box plot of RT
-% 
-% %boxplot of the RTs
-% subplot(2,4,8)
-% boxplot(squeeze(mean(RTs,2)),'color',plotcolors)
-% set(gca,'tickdir','out','xtick',1:3,'xticklabel',{'fast','medium','slow'},'fontsize',18)
-% box off
-% ylabel('Response time (s)')
-% 
-set(gcf,'color','w')
 
 
