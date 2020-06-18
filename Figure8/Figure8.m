@@ -1,3 +1,4 @@
+%% clear contents and add current folder with subfolders
 clear
 close all
 clc
