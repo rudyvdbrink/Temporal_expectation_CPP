@@ -115,7 +115,7 @@ plot(rtime(logical(h)),ones(sum(h),1)*-5,'k.')
 %% Topographical plot
 
 subplot(2,4,4) %make a sub pannel in which to plot
-topoplot(topo_cpp,chanlocs,'style','map','electrodes','off'); %make the topographical plot (this is an EEGLAB function)
+topoplot(topo_cpp,chanlocs,'style','map','headrad',0.5,'plotrad',0.55); %make the topographical plot (this is an EEGLAB function)
 set(gca,'clim',[-30 30]) %set the color limit
 title(num2str('Respnse onset')) %make a title that shows the time point that's plotted
 
