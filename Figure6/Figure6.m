@@ -105,12 +105,19 @@ set(gca,'tickdir','out','fontsize',18,'linewidth',1)
 ylabel('Amplitude (\muV/m^2)')
 title('Effect of cue validity (short CTI)')
 
-%plot the estimated CPP onsets (we plot the SD instead of within-subject
-%SEM because the latter is too small to see in the figure
+
+%plot onsets (individual subjects)
+indata = [squeeze(mean(ta_onsets(:,1:2),2)) squeeze(mean(ta_onsets(:,3:4),2))];
+subcols = repmat(linspace(0.2,0.9,size(indata,1))',1, 3); %colors for the individual subjects
+for si = 1:size(indata,1)
+    plot(indata(si,:)-(squeeze(nanmean(indata(si,:)))*mc) + (nanmean(indata)*mc),[-7 -3],'o-','MarkerFaceColor',subcols(si,:),'MarkerEdgeColor','w', 'Color',subcols(si,:))
+end
+
+%plot the average estimated CPP onsets 
 plot(squeeze(mean(mean(ta_onsets(:,1:2)))),-7,'ko','markerfacecolor','k')
-plot([squeeze(mean(mean(ta_onsets(:,1:2))))-std(squeeze(mean(ta_onsets(:,1:2),2))) squeeze(mean(mean(ta_onsets(:,1:2))))+std(squeeze(mean(ta_onsets(:,1:2),2)))],[0 0]-7,'k','linewidth',3)
+plot([squeeze(mean(mean(ta_onsets(:,1:2))))-std(squeeze(mean(ta_onsets(:,1:2),2)))./sqrt(size(ta_onsets,1)) squeeze(mean(mean(ta_onsets(:,1:2))))+std(squeeze(mean(ta_onsets(:,1:2),2)))./sqrt(size(ta_onsets,1))],[0 0]-7,'k','linewidth',3)
 plot(squeeze(mean(mean(ta_onsets(:,3:4)))),-3,'ro','markerfacecolor','r')
-plot([squeeze(mean(mean(ta_onsets(:,3:4))))-std(squeeze(mean(ta_onsets(:,3:4),2))) squeeze(mean(mean(ta_onsets(:,3:4))))+std(squeeze(mean(ta_onsets(:,3:4),2)))],[0 0]-3,'r','linewidth',3)
+plot([squeeze(mean(mean(ta_onsets(:,3:4))))-std(squeeze(mean(ta_onsets(:,3:4),2)))./sqrt(size(ta_onsets,1)) squeeze(mean(mean(ta_onsets(:,3:4))))+std(squeeze(mean(ta_onsets(:,3:4),2)))./sqrt(size(ta_onsets,1))],[0 0]-3,'r','linewidth',3)
 
 %plot average RT as dotted lines
 plot([squeeze(mean(mean(bhvdat(:,1:2)))) squeeze(mean(mean(bhvdat(:,1:2))))], [-10 30],'k--')
@@ -131,7 +138,6 @@ plot([-400 100],[0 0],'k--','linewidth',2)
 
 ci = 1; %this keeps track of the number of lines that have been plotted
 for condi = [1 3] %loop over stimulus locked conditions
-%     plot(rtime, squeeze(mean(mean(CPP(:,condi:condi+1,:)))) ,'color',plotcolors(ci,:),'linewidth',3)
     m  = squeeze(mean(mean(CPP(:,condi:condi+1,:))));
     eb = squeeze(std(mean(CPP(:,condi:condi+1,:),2))) ./sqrt(size(CPP,1));
     shadedErrorBar(rtime,m,eb ,{'color',plotcolors(ci,:),'linewidth',3});    
@@ -167,11 +173,6 @@ disp(['Response-locked CPP peak latency comparison of valid versus invalid trial
 %plot the estimated CPP slopes
 subplot(2,5,5)
 hold on
-
-% bar(1,mean(mean(ta_slopes(:,1:2),2)),'FaceColor','k','EdgeColor','none')
-% bar(2,mean(mean(ta_slopes(:,3:4),2)),'FaceColor','r','EdgeColor','none')
-% wse([mean(ta_slopes(:,1:2),2) mean(ta_slopes(:,3:4),2)],1); %plot error bars
-% ylim([0.05 0.11])
 indata = [mean(ta_slopes(:,1:2),2) mean(ta_slopes(:,3:4),2)];
 wsplot(indata,mc,cols)
 set(gca,'xtick',[],'tickdir','out')
@@ -194,7 +195,6 @@ plot([-200 800],[0 0],'k--','linewidth',2)
 
 ci = 1; %this keeps track of the number of lines that have been plotted
 for condi = [9 10] %loop over stimulus locked conditions   
-%     plot(stime, squeeze(mean(mean(CPP(:,condi:2:condi+6,:)))),'color',plotcolors(ci,:),'linewidth',3);
     m  = squeeze(mean(mean(CPP(:,condi:2:condi+6,:))));
     eb = squeeze(std(mean(CPP(:,condi:2:condi+6,:),2))) ./sqrt(size(CPP,1));
     shadedErrorBar(stime,m,eb ,{'color',plotcolors(ci,:),'linewidth',3});    
@@ -208,12 +208,18 @@ set(gca,'tickdir','out','fontsize',18,'linewidth',1)
 ylabel('Amplitude (\muV/m^2)')
 title('Effect of difficulty')
 
-%plot the estimated CPP onsets (we plot the SD instead of within-subject
-%SEM because the latter is too small to see in the figure
+%plot onsets (individual subjects)
+indata = [squeeze(mean(ta_onsets(:,1:2:7),2)) squeeze(mean(ta_onsets(:,2:2:8),2))];
+subcols = repmat(linspace(0.2,0.9,size(indata,1))',1, 3); %colors for the individual subjects
+for si = 1:size(indata,1)
+    plot(indata(si,:)-(squeeze(nanmean(indata(si,:)))*mc) + (nanmean(indata)*mc),[-7 -3],'o-','MarkerFaceColor',subcols(si,:),'MarkerEdgeColor','w', 'Color',subcols(si,:))
+end
+
+%plot the average estimated CPP onsets 
 plot(squeeze(mean(mean(ta_onsets(:,1:2:7)))),-7,'ko','markerfacecolor','k')
-plot([squeeze(mean(mean(ta_onsets(:,1:2:7))))-std(squeeze(mean(ta_onsets(:,1:2:7),2))) squeeze(mean(mean(ta_onsets(:,1:2:7))))+std(squeeze(mean(ta_onsets(:,1:2:7),2)))],[0 0]-7,'k','linewidth',3)
+plot([squeeze(mean(mean(ta_onsets(:,1:2:7))))-std(squeeze(mean(ta_onsets(:,1:2:7),2)))./sqrt(size(ta_onsets,1)) squeeze(mean(mean(ta_onsets(:,1:2:7))))+std(squeeze(mean(ta_onsets(:,1:2:7),2)))./sqrt(size(ta_onsets,1))],[0 0]-7,'k','linewidth',3)
 plot(squeeze(mean(mean(ta_onsets(:,2:2:8)))),-3,'ro','markerfacecolor','r')
-plot([squeeze(mean(mean(ta_onsets(:,2:2:8))))-std(squeeze(mean(ta_onsets(:,2:2:8),2))) squeeze(mean(mean(ta_onsets(:,2:2:8))))+std(squeeze(mean(ta_onsets(:,2:2:8),2)))],[0 0]-3,'r','linewidth',3)
+plot([squeeze(mean(mean(ta_onsets(:,2:2:8))))-std(squeeze(mean(ta_onsets(:,2:2:8),2)))./sqrt(size(ta_onsets,1)) squeeze(mean(mean(ta_onsets(:,2:2:8))))+std(squeeze(mean(ta_onsets(:,2:2:8),2)))./sqrt(size(ta_onsets,1))],[0 0]-3,'r','linewidth',3)
 
 %plot average RT as dotted lines
 plot([squeeze(mean(mean(bhvdat(:,1:2:8)))) squeeze(mean(mean(bhvdat(:,1:2:8))))], [-10 30],'k--')
