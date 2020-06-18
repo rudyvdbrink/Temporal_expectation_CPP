@@ -5,7 +5,7 @@ This package includes the following:
 - The behavioral task (programmed in matlab)
 - Subject-level data (behavior and EEG)
 - Code to reproduce the figures and run statistical analyses of the data
-- Example code to run fitting of the CPP
+- Example code to run fitting of the CPP (see code Figure 2)
 
 All code is commented with information about the relevant data files and variables.
 
