@@ -169,6 +169,7 @@ end
 bf = t1smpbf(stats.tstat,21);
 disp(['Response-locked CPP peak latency comparison of valid versus invalid trials: p = ' num2str(p) ', BF = ' num2str(bf)]) 
 
+
 %% plot the trial-average estimated CPP slopes (valid versus invalid)
 
 %plot the estimated CPP slopes
@@ -240,8 +241,7 @@ plot([0 0],[-10 30],'k--','linewidth',2)
 plot([-400 100],[0 0],'k--','linewidth',2) 
 
 ci = 1; %this keeps track of the number of lines that have been plotted
-for condi = [1 3] %loop over stimulus locked conditions
-%     plot(rtime, squeeze(mean(mean(CPP(:,condi:2:condi+6,:)))),'color',plotcolors(ci,:),'linewidth',3);
+for condi = [1 2] %loop over conditions
     m  = squeeze(mean(mean(CPP(:,condi:2:condi+6,:))));
     eb = squeeze(std(mean(CPP(:,condi:2:condi+6,:),2))) ./sqrt(size(CPP,1));
     shadedErrorBar(rtime,m,eb ,{'color',plotcolors(ci,:),'linewidth',3});    
@@ -253,6 +253,15 @@ xlim([-400 100])
 xlabel('Peri-response time (ms)','fontsize',18)
 set(gca,'tickdir','out','fontsize',18,'linewidth',1) 
 ylim([-10 30])
+
+%compare the peak amplitude at time of response for easy and difficult
+%trials
+edat = squeeze(mean(CPP(:,1:2:7,:),2)); %response-locked CPP on valid trials
+ddat = squeeze(mean(CPP(:,2:2:8,:),2)); %response-locked CPP on valid trials
+[~, p] = permtest(edat(:,rtime==0),ddat(:,rtime==0),10000); %compare peak at time of response
+[~, ~, ~, stats] = ttest(edat(:,rtime==0),ddat(:,rtime==0)); %get t-statistic to get bayes factor
+bf = t1smpbf(stats.tstat,21);
+disp(['Response-locked CPP peak amplitude comparison of easy and difficult trials: t(' num2str(stats.df) ') = ' num2str(stats.tstat) ' p = ' num2str(p) ', BF = ' num2str(bf)]) 
 
 %% plot the trial-average estimated CPP slopes (easy versus difficult)
 
