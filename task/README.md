@@ -29,14 +29,14 @@ Output matrix 'data' has 10 columns, with the following variables:
 Condition information: First number (short/long); Second number (valid/invalid); Third number (easy/difficult). In this case, 'long interval' means that the target was presented  after the long interval, so 'invalid long interval' trials were trials on which the cue signalled a short interval, but the target was presented later.
 
 - 10 = catch 
-- 100 = short interval, validly cued, easy.
-- 101 = short interval, validly cued, difficult.
-- 110 = short interval, invalidly cued, easy.
-- 111 = short interval, invalidly cued, difficult.
-- 200 = long interval, validly cued, easy.
-- 201 = long interval, validly cued, difficult.
-- 210 = long interval, invalidly cued, easy.
-- 211 = long interval, invalidly cued, difficult.
+- 100 = short interval, validly cued, easy
+- 101 = short interval, validly cued, difficult
+- 110 = short interval, invalidly cued, easy
+- 111 = short interval, invalidly cued, difficult
+- 200 = long interval, validly cued, easy
+- 201 = long interval, validly cued, difficult
+- 210 = long interval, invalidly cued, easy
+- 211 = long interval, invalidly cued, difficult
 
 
 EEG trigger information:
@@ -49,7 +49,7 @@ stimulus markers:
 response marker:
  - 7: key press
 
-feedback triggers:
+feedback markers:
   - 1 = hit trial
   - 2 = miss tiral
   - 3 = false alarm on catch trial
