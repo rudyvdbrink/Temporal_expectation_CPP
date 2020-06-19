@@ -51,7 +51,7 @@ disp(['Average cueing effect for difficult long interval trials: ' num2str(mean(
 
 %% make figure
 
-xo = 0.05; %x-offxet for plotting
+xo = 0.05; %x-offset for plotting
 figure
 
 %RT
