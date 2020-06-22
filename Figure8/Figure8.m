@@ -32,6 +32,11 @@ eeglab,close
 %Variable binslopes contains CPP slope values binned by alpha power
 %Variable cpp_t keeps track of time for the CPP
 %Variable CPP contains CPP values binned by alpha power
+%Variable topopower_mean contains the average power values across all
+%conditions per channel and participant
+%Variable topopower_vi contains the power values for the valid (1st index
+%of 3rd dimension) and invalid trials (2nd index of 3rd dimension) per
+%channel and participant
 
 %Permdist contains the permuted null distributions that are used to compute
 %p-values for individual statistical tests. It has size test (N) by
@@ -68,8 +73,8 @@ plot([f2plot(end) f2plot(end)],[0 .6],'k--')
 
 %topographical plot
 figure
-topoplot(squeeze(mean(topopower)),chanlocs,'style','map','electrodes','off');
-set(gca,'clim',[min(squeeze(mean(topopower))) max(squeeze(mean(topopower)))])
+topoplot(squeeze(mean(topopower_mean)),chanlocs,'style','map','electrodes','off');
+set(gca,'clim',[min(squeeze(mean(topopower_mean))) max(squeeze(mean(topopower_mean)))])
 
 %% Plot time-frequency comparison of valid versus invalid trials
 
@@ -92,6 +97,11 @@ colormap jet
 ylim([5 20])
 ylabel('Frequency (Hz)')
 xlabel('Peri-stimulus time (ms)')
+
+%topographical plot
+figure
+topoplot(squeeze(mean(topopower_vi(:,:,1)-topopower_vi(:,:,2))),chanlocs,'style','map','electrodes','on');
+set(gca,'clim',[-20 20])
 
 %% Make line plot of alpha power in the individual conditions
 
