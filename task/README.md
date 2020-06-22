@@ -2,7 +2,7 @@
 
 To run the task, run task.m in the folder 'scripts'. To run this, you need MATLAB and the Psychtoolbox (http://psychtoolbox.org/).
 
-This will prompt an input dialogue where you can set a number of releveant variables:
+This will prompt an input dialogue where you can set a number of relevant variables:
 - participant number
 - task (1 = detection, 2 = 2AF discrimination)
 - EEG (1 = send triggers, 0 = no triggers)
@@ -11,7 +11,7 @@ This will prompt an input dialogue where you can set a number of releveant varia
 - screen width (in cm)
 - and viewing distance (in cm).
 
-Behavioral data are saved per individual block as a tab separated text file, and with all blocks concatinated as a matlab .mat file. 
+Behavioral data are saved per individual block as a tab separated text file, and with all blocks concatenated as a matlab .mat file. 
 
 Output matrix 'data' has 10 columns, with the following variables:
 - (1)  trial number within block
@@ -26,7 +26,7 @@ Output matrix 'data' has 10 columns, with the following variables:
 - (10) time on block
 - (11) cue number (1 = low, 2 = high)
 
-Condition information: First number (short/long); Second number (valid/invalid); Third number (easy/difficult). In this case, 'long interval' means that the target was presented  after the long interval, so 'invalid long interval' trials were trials on which the cue signalled a short interval, but the target was presented later.
+Condition information: First number (short/long); Second number (valid/invalid); Third number (easy/difficult). In this case, 'long interval' means that the target was presented  after the long interval, so 'invalid long interval' trials were trials on which the cue signaled a short interval, but the target was presented later.
 
 - 10 = catch 
 - 100 = short interval, validly cued, easy
@@ -51,9 +51,9 @@ response marker:
 
 feedback markers:
   - 1 = hit trial
-  - 2 = miss tiral
+  - 2 = miss trial
   - 3 = false alarm on catch trial
-  - 4 = false alarm on non-cath trial
+  - 4 = false alarm on non-catch trial
   - 5 = correct reject trial
 
 block markers:
