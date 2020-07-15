@@ -16,7 +16,7 @@
 %8)  accuracy (correct or incorrect, 1 or 0)
 %9)  false alarm (yes or no, 1 or 0)
 %10) time on block
-%11) cue number (1 = low, 2 = high)
+%11) cue number (1 = high, 2 = low)
 
 %condition information: First number (short/long); Second number (valid/invalid); Third number (easy/difficult)
 % 10 = catch
