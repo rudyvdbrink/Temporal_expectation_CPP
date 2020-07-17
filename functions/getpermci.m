@@ -17,7 +17,7 @@ function ci = getpermci(d,dn,pc)
 %     CI:         confidence interval around diff
 
 %% check input
-if ~exist(pc,'var')
+if ~exist('pc','var')
     pc = [5 95];
 end
 
