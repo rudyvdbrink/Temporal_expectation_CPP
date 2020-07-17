@@ -166,13 +166,17 @@ plot( squeeze(mean(binonset(:,3))) - eb(3) : squeeze(mean(binonset(:,3))) + eb(3
 plot(squeeze(mean(binonset(:,3))),-8,'o','MarkerFaceColor',plotcolors(3,:))
 
 %compare and report stats
-[~, p] = permtest(binonset(:,1),binonset(:,2),npermutes);
-disp(['Onset: fast RT vs medium RT bin, p = ' num2str(p) ])
-[~, p] = permtest(binonset(:,1),binonset(:,3),npermutes);
-disp(['Onset: fast RT vs slow RT bin, p = ' num2str(p) ])
+[~, p, d, dn] = permtest(binonset(:,1),binonset(:,2),npermutes);
+ci = getpermci(d,dn);
+disp(['Onset: fast RT vs medium RT bin, p = ' num2str(p) ', CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)])
+[~, p, d, dn] = permtest(binonset(:,1),binonset(:,3),npermutes);
+ci = getpermci(d,dn);
+disp(['Onset: fast RT vs slow RT bin, p = ' num2str(p) ', CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)])
 text(400,-5,['p = ' num2str(p)])
-[~, p] = permtest(binonset(:,2),binonset(:,3),npermutes);
-disp(['Onset: medium RT vs slow RT bin, p = ' num2str(p) ])
+text(400,-2,['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)])
+[~, p, d, dn] = permtest(binonset(:,2),binonset(:,3),npermutes);
+ci = getpermci(d,dn);
+disp(['Onset: medium RT vs slow RT bin, p = ' num2str(p) ', CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)])
 
 %response locked
 subplot(2,4,7)
@@ -205,13 +209,17 @@ ylabel('CPP slope (\muV / m^2 / T_s)')
 set(gcf,'color','w')
 
 %% compare and report stats
-[~, p] = permtest(binslope(:,1),binslope(:,2),npermutes);
-disp(['Slope: fast RT vs medium RT bin, p = ' num2str(p) ])
-[~, p] = permtest(binslope(:,1),binslope(:,3),npermutes);
-disp(['Slope: fast RT vs slow RT bin, p = ' num2str(p) ])
-text(2,0.25,['p = ' num2str(p)])
-[~, p] = permtest(binslope(:,2),binslope(:,3),npermutes);
-disp(['Slope: medium RT vs slow RT bin, p = ' num2str(p) ])
+[~, p, d, dn] = permtest(binslope(:,1),binslope(:,2),npermutes);
+ci = getpermci(d,dn);
+disp(['Slope: fast RT vs medium RT bin, p = ' num2str(p) ', CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)])
+[~, p, d, dn] = permtest(binslope(:,1),binslope(:,3),npermutes);
+ci = getpermci(d,dn);
+disp(['Slope: fast RT vs slow RT bin, p = ' num2str(p) ', CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)])
+text(2,0.3,['p = ' num2str(p)])
+text(2,0.33,['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)])
+[~, p, d, dn] = permtest(binslope(:,2),binslope(:,3),npermutes);
+ci = getpermci(d,dn);
+disp(['Slope: medium RT vs slow RT bin, p = ' num2str(p) ', CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)])
 
 
 
