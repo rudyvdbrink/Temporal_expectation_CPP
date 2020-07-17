@@ -127,7 +127,9 @@ plot([squeeze(mean(mean(bhvdat(:,3:4)))) squeeze(mean(mean(bhvdat(:,3:4))))], [-
 %run statistics
 diff = mean(mean(ta_onsets(:,1:2),2)) - mean(mean(ta_onsets(:,3:4),2)); %the observed value
 p = sum(diff >= permdist(1,:)) / size(permdist,2); %compute p value
-text(300,-5,['p = ' num2str(p)],'fontsize',18)
+ci = getpermci(diff,permdist(1,:));
+text(300,-5,['p = ' num2str(p)])
+text(300,-8,['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)])
 
 %% Plot trial-average CPP for valid and invalid conditions (response locked)
 
@@ -185,7 +187,8 @@ set(gca,'fontsize',18)
 %permuted null distribution
 diff = mean(mean(ta_slopes(:,1:2),2)) - mean(mean(ta_slopes(:,3:4),2)); %the observed value
 p = sum(diff <= permdist(2,:)) / size(permdist,2); %compute p value
-title(['p = ' num2str(p)])
+ci = getpermci(diff,permdist(2,:));
+title({['p = ' num2str(p) ] ['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)]})
 
 %% Plot trial-average CPP for easy and difficult conditions (stimulus locked)
 
@@ -230,7 +233,9 @@ plot([squeeze(mean(mean(bhvdat(:,2:2:8)))) squeeze(mean(mean(bhvdat(:,2:2:8))))]
 %run statistics
 diff = mean(mean(ta_onsets(:,1:2:7),2)) - mean(mean(ta_onsets(:,2:2:8),2)); %the observed value
 p = sum(diff <= permdist(3,:)) / size(permdist,2); %compute p value
-text(300,-5,['p = ' num2str(p)],'fontsize',18)
+ci = getpermci(diff,permdist(3,:));
+text(300,-5,['p = ' num2str(p)])
+text(300,-8,['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)])
 
 %% Plot trial-average CPP for easy and difficult conditions (response locked)
 
@@ -284,8 +289,8 @@ set(gca,'fontsize',18)
 %permuted null distribution
 diff = mean(mean(ta_slopes(:,1:2:7),2)) - mean(mean(ta_slopes(:,2:2:8),2)); %the observed value
 p = sum(diff <= permdist(4,:)) / size(permdist,2); %compute p value
-title(['p = ' num2str(p)])
-
+ci = getpermci(diff,permdist(4,:));
+title({['p = ' num2str(p) ] ['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)]})
 
 %% bar plots of onset, onset variability, and slope, computed at the single trial level
 
@@ -302,11 +307,11 @@ wsplot(indata,mc,cols)
 % ylim([100 130])
 diff = mean(mean(st_onsets(:,1:2),2) - mean(st_onsets(:,3:4),2)); %the observed value
 p = sum(diff >= permdist(5,:)) / size(permdist,2); %compute p value
-title([{'Effect of cue validity '} {['on onset p=' num2str(p)]}])
+ci = getpermci(diff,permdist(5,:));
+title([{'Effect of cue validity '} {['on onset p=' num2str(p)]} {['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)]}])
 set(gca,'tickdir','out','xtick',1:2,'xticklabel',{'Valid', 'Invalid'})
 box off
 ylabel('Onset (ms)')
-set(gca,'fontsize',18)
 
 
 %effect of cue validity on onset variability
@@ -320,11 +325,11 @@ indata = [mean(st_onsetvar(:,1:2),2) mean(st_onsetvar(:,3:4),2)];
 wsplot(indata,mc,cols)
 diff = mean(mean(st_onsetvar(:,1:2),2) - mean(st_onsetvar(:,3:4),2)); %the observed value
 p = sum(diff >= permdist(6,:)) / size(permdist,2); %compute p value
-title([{'Effect of cue validity '} {['on onset variability p=' num2str(p)]}])
+ci = getpermci(diff,permdist(6,:));
+title([{'Effect of cue validity '} {['on onset variability p=' num2str(p)]} {['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)]}])
 set(gca,'tickdir','out','xtick',1:2,'xticklabel',{'Valid', 'Invalid'} )
 box off
 ylabel('Onset variability (ms)')
-set(gca,'fontsize',18)
 
 
 %effect of cue validity on slope
@@ -338,11 +343,11 @@ indata = [mean(st_slopes(:,1:2),2) mean(st_slopes(:,3:4),2)];
 wsplot(indata,mc,cols)
 diff = mean(mean(st_slopes(:,1:2),2) - mean(st_slopes(:,3:4),2)); %the observed value
 p = sum(diff <= permdist(7,:)) / size(permdist,2); %compute p value
-title([{'Effect of cue validity '} {['on slope p=' num2str(p)]}])
+ci = getpermci(diff,permdist(7,:));
+title([{'Effect of cue validity '} {['on slope p=' num2str(p)]} {['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)]}])
 set(gca,'tickdir','out','xtick',1:2,'xticklabel',{'Valid', 'Invalid'})
 box off
 ylabel('Slope (\muV / m^2 / T_s)')
-set(gca,'fontsize',18)
 
 
 %effect of difficulty on slope
@@ -356,8 +361,8 @@ indata = [mean(st_slopes(:,1:2:7),2) mean(st_slopes(:,2:2:8),2)];
 wsplot(indata,mc,cols)
 diff = mean(mean(st_slopes(:,1:2:7),2) - mean(st_slopes(:,2:2:8),2)); %the observed value
 p = sum(diff <= permdist(8,:)) / size(permdist,2); %compute p value
-title([{'Effect of difficulty'} {['on slope p=' num2str(p)]}])
+ci = getpermci(diff,permdist(8,:));
+title([{'Effect of difficulty'} {['on slope p=' num2str(p)]} {['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)]}])
 set(gca,'tickdir','out','xtick',1:2,'xticklabel',{'Easy', 'Difficult'})
 box off
 ylabel('Slope (\muV / m^2 / T_s)')
-set(gca,'fontsize',18)
