@@ -5,7 +5,7 @@ function ci = getpermci(d,dn,pc)
 %
 % Usage:
 %     CI = getpermci(diff,diff_null)
-%     CI = getpermci(diff,diff_null,interval)%     
+%     CI = getpermci(diff,diff_null,interval)     
 %
 %   Input:
 %     diff:       empirical difference between conditions
