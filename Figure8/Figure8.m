@@ -163,7 +163,8 @@ set(gca,'tickdir','out','xtick',1:3,'FontSize',18)
 
 diff = mean(mean(binRT(:,1)) - mean(binRT(:,end))); %the observed value
 p = sum(diff >= permdist(1,:)) / size(permdist,2); %compute p value
-title(['RT: p = ' num2str(p)])
+ci = getpermci(diff,permdist(1,:));
+title({['RT: p = ' num2str(p)] ['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)]})
 
 %Onset binned by alpha power
 subplot(1,3,2)
@@ -174,7 +175,8 @@ box off
 set(gca,'tickdir','out','xtick',1:3,'FontSize',18)
 diff = mean(mean(binonsets(:,1)) - mean(binonsets(:,end))); %the observed value
 p = sum(diff >= permdist(2,:)) / size(permdist,2); %compute p value
-title(['Onset: p = ' num2str(p)])
+ci = getpermci(diff,permdist(2,:));
+title({['Onset: p = ' num2str(p)]  ['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)]})
 
 %Slope binned by alpha power
 subplot(1,3,3)
@@ -186,6 +188,7 @@ box off
 set(gca,'tickdir','out','xtick',1:3,'FontSize',18,'FontSize',18)
 diff = mean(mean(binslopes(:,1)) - mean(binslopes(:,end))); %the observed value
 p = sum(diff <= permdist(3,:)) / size(permdist,2); %compute p value
-title(['Slope: p = ' num2str(p)])
+ci = getpermci(diff,permdist(3,:));
+title({['Slope: p = ' num2str(p)]  ['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)]})
 
 
