@@ -48,9 +48,8 @@ load data.mat
 
 %% options for statistics
 
-%number of iterations for permutation testing
-npermutes = 10000;
-mc = 0;
+npermutes = 10000; %number of iterations for permutation testing
+mc = 0; %mean center plots
 
 %% fit a two-part line segment to the CPP, per subject and RT bin
 
