@@ -18,10 +18,10 @@ eeglab,close
 %variable 't'). All data are stimulus-locked
 
 %Conditions are:
-%1) Short intrval, validly cued, easy
-%2) Short intrval, validly cued, difficult
-%1) Short intrval, invalidly cued, easy
-%2) Short intrval, invalidly cued, difficult
+%1) Short interval, validly cued, easy
+%2) Short interval, validly cued, difficult
+%1) Short interval, invalidly cued, easy
+%2) Short interval, invalidly cued, difficult
 
 %Variable t keeps track of time of the tfr
 %Variable f keeps track of frequency of the tfr
