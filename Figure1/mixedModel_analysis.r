@@ -1,6 +1,20 @@
-setwd("C:/Users/kobe/Documents/Projecten/RecoveryRudy")
+setwd("C:/DATA/TESD/data4upload/Figure1")
 rm(list=ls())
-Data <- read.table('data_both_cti.csv',header=T,sep=',')
+Data <- read.table('trial_level_data.csv',header=T,sep=',')
+
+#Columns in data indicate:
+#1: trl_idx (trial index within participants)
+#2: RT (response time; miss trial RT is set to zero, for false alarms this is negative because the response was prior to the stimulus)
+#3: response (1 or 0, indicating if a response was given or not)
+#4: subj_idx (participant index, starting at zero)
+#5: condition (0=catch, 1=valid, 2=invalid)
+#6: difficulty (0=catch, 1=easy, 2=difficult)
+#7: stim (0=catch, 1=stim present);
+#8: correct (1=correct, 0=incorrect)
+#9: cti: (0=short interval, 1=long interval)
+
+
+## stats for misses ##
 
 #excluce catch trials
 Data <- subset(Data,condition!=0)
@@ -10,13 +24,12 @@ Data <- subset(Data,condition!=0)
 FalseAlarms <- subset(Data,rt != 0) #exclude misses
 Data <- subset(Data,rt>=0)
 
-#double check stuff
+#double check if everything is there
 table(Data$subj_idx)
 table(Data$condition,Data$difficulty,Data$cti)
 table(Data$subj_idx,Data$condition,Data$difficulty,Data$cti)
 
-#Effects of cue validity, CTI, and difficulty on RT and accuracy were tested with a repeated-measures ANOVA in JASP version 0.9.2 (JASP Team, 2018), 
-#with cue validity (valid or invalid), CTI (short or long), and difficulty (easy or difficult) as within-participant factors
+#reshape and make a plot
 library(reshape)
 ER <- with(Data,aggregate(correct,by=list(condition=condition,difficulty=difficulty,cti=cti,subj_idx=subj_idx),mean));ER <- cast(ER,subj_idx~cti+difficulty+condition)
 ER <- ER*100;ER <- 100-ER
@@ -26,7 +39,7 @@ lines(colMeans(ER)[4:5],type='b',lty=2)
 plot(colMeans(ER)[6:7],type='b',ylim=c(2,10),main="long CTI")
 lines(colMeans(ER)[8:9],type='b',lty=2)
 
-#Now do the same with a mixed model analysis
+#Now run mixed model analysis
 library(lme4);library(car);library(effects);library(multcomp)
 Data$condition <- as.factor(Data$condition)
 Data$difficulty <- as.factor(Data$difficulty)
@@ -83,7 +96,7 @@ summary(glht(fit_long_cti, linfct=contrast.matrix), test=adjusted("none"))
 # fit_long_hard
 
 
-
+## stats for false alarms ##
 
 #Finally, look at the effects of false alarms (i.e., trials where rt<0)
 #because the stimulus wasn't seen yet, don't include difficulty here, only validity and cti
@@ -105,10 +118,3 @@ contrast.matrix <- rbind("validity in cti 0"= c(0, 1, 0, 0),
                          "validity in cti 1"= c(0, 1, 0, 1))
 summary(glht(fit_b, linfct=contrast.matrix), test=adjusted("none"))
 
-
-#double check to make sure the coding's done correctly
-# short <- subset(FalseAlarms,cti==0);long <- subset(FalseAlarms,cti==1)
-# fit_short <- glmer(correct~condition+(1|subj_idx),data=short,family=binomial,glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=500000)))
-# fit_long <- glmer(correct~condition+(1|subj_idx),data=long,family=binomial,glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=500000)))
-# fit_short
-# fit_long
