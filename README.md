@@ -13,3 +13,4 @@ Dependencies:
 - EEGLAB (https://sccn.ucsd.edu/eeglab/index.php)
 - Statistics toolbox (https://www.mathworks.com/products/statistics.html)
 - Psychtoolbox (http://psychtoolbox.org/)
+- R statistics (https://www.r-project.org/)
