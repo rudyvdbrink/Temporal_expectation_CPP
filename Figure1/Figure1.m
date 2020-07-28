@@ -125,13 +125,16 @@ box off
 
 disp(' ')
 [~, p, ~, stats] = ttest(mean([(data(:,3)-data(:,1)) (data(:,4)-data(:,2)) ],2),[],0.05,'right');
-disp(['Cueing effect short interval significant? t(' num2str(stats.df) ') = ' num2str(stats.tstat) ', p = ' num2str(p)])
+BF = t1smpbf(stats.tstat,21); %compute Bayes factor
+disp(['Cueing effect short interval significant? t(' num2str(stats.df) ') = ' num2str(stats.tstat) ', p = ' num2str(p) ', BF = ' num2str(BF)])
 
 [~, p, ~, stats] = ttest(mean([(data(:,7)-data(:,5)) (data(:,8)-data(:,6)) ],2),[],0.05,'right');
-disp(['Cueing effect long interval significant? t(' num2str(stats.df) ') = ' num2str(stats.tstat) ', p = ' num2str(p)])
+BF = t1smpbf(stats.tstat,21); %compute Bayes factor
+disp(['Cueing effect long interval significant? t(' num2str(stats.df) ') = ' num2str(stats.tstat) ', p = ' num2str(p) ', BF = ' num2str(BF)])
 
 [~, p, ~, stats] = ttest(mean([(data(:,2)-data(:,1)) (data(:,4)-data(:,3)) (data(:,6)-data(:,5)) (data(:,8)-data(:,7)) ],2),[],0.05,'right');
-disp(['Difficulty effect significant? t(' num2str(stats.df) ') = ' num2str(stats.tstat) ', p = ' num2str(p)])
+BF = t1smpbf(stats.tstat,21); %compute Bayes factor
+disp(['Difficulty effect significant? t(' num2str(stats.df) ') = ' num2str(stats.tstat) ', p = ' num2str(p) ', BF = ' num2str(BF)])
 
 [~, p, ~, stats] = ttest(mean([(data(:,3)-data(:,1)) (data(:,4)-data(:,2)) ],2) , mean([(data(:,2)-data(:,1)) (data(:,4)-data(:,3)) (data(:,6)-data(:,5)) (data(:,8)-data(:,7)) ],2) );
 BF = t1smpbf(stats.tstat,21); %compute Bayes factor
