@@ -1,4 +1,3 @@
-setwd("C:/DATA/TESD/data4upload/Figure1")
 rm(list=ls())
 Data <- read.table('trial_level_data.csv',header=T,sep=',')
 
