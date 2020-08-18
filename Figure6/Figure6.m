@@ -292,7 +292,7 @@ p = sum(diff <= permdist(4,:)) / size(permdist,2); %compute p value
 ci = getpermci(diff,permdist(4,:));
 title({['p = ' num2str(p) ] ['CI = ' num2str(round(ci(1)*100)/100) ' ' num2str(round(ci(2)*100)/100)]})
 
-%% bar plots of onset, onset variability, and slope, computed at the single trial level
+%% plots of onset, onset variability, and slope, computed at the single trial level
 
 figure
 
