@@ -337,10 +337,6 @@ ylabel('Slope (\muV / m^2 / T_s)')
 %effect of difficulty on slope
 subplot(2,4,4)
 hold on
-% bar(1,mean(mean(st_slopes(:,1:2:7),2)),'FaceColor','k','EdgeColor','none');
-% bar(2,mean(mean(st_slopes(:,2:2:8),2)),'FaceColor','r','EdgeColor','none');
-% wse([mean(st_slopes(:,1:2:7),2) mean(st_slopes(:,2:2:8),2)],1); 
-% ylim([0.05 .09])
 indata = [mean(st_slopes(:,1:2:7),2) mean(st_slopes(:,2:2:8),2)];
 wsplot(indata,mc,cols)
 diff = mean(mean(st_slopes(:,1:2:7),2) - mean(st_slopes(:,2:2:8),2)); %the observed value
