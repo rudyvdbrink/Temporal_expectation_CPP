@@ -309,10 +309,6 @@ ylabel('Onset (ms)')
 %effect of cue validity on onset variability
 subplot(2,4,2)
 hold on
-% bar(1,mean(mean(st_onsetvar(:,1:2),2)),'FaceColor','k','EdgeColor','none');
-% bar(2,mean(mean(st_onsetvar(:,3:4),2)),'FaceColor','r','EdgeColor','none');
-% wse([mean(st_onsetvar(:,1:2),2) mean(st_onsetvar(:,3:4),2)],1);
-% ylim([100 130])
 indata = [mean(st_onsetvar(:,1:2),2) mean(st_onsetvar(:,3:4),2)];
 wsplot(indata,mc,cols)
 diff = mean(mean(st_onsetvar(:,1:2),2) - mean(st_onsetvar(:,3:4),2)); %the observed value
