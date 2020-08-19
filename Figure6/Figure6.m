@@ -294,10 +294,6 @@ figure
 
 %effect of cue validity on onset
 subplot(2,4,1)
-% hold on
-% bar(1,mean(mean(st_onsets(:,1:2),2)),'FaceColor','k','EdgeColor','none');
-% bar(2,mean(mean(st_onsets(:,3:4),2)),'FaceColor','r','EdgeColor','none');
-% wse([mean(st_onsets(:,1:2),2) mean(st_onsets(:,3:4),2)],1); 
 indata = [mean(st_onsets(:,1:2),2) mean(st_onsets(:,3:4),2)];
 wsplot(indata,mc,cols)
 % ylim([100 130])
