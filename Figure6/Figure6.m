@@ -274,10 +274,6 @@ disp(['Response-locked CPP peak amplitude comparison of easy and difficult trial
 subplot(2,5,10)
 hold on
 
-% bar(1,mean(mean(ta_slopes(:,1:2:7),2)),'FaceColor','k','EdgeColor','none')
-% bar(2,mean(mean(ta_slopes(:,2:2:8),2)),'FaceColor','r','EdgeColor','none')
-% wse([mean(ta_slopes(:,1:2:7),2) mean(ta_slopes(:,2:2:8),2)],1); %plot error bars
-% ylim([0.05 0.11])
 indata = [mean(ta_slopes(:,1:2:7),2) mean(ta_slopes(:,2:2:8),2)];
 wsplot(indata,mc,cols)
 
