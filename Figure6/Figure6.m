@@ -323,10 +323,6 @@ ylabel('Onset variability (ms)')
 %effect of cue validity on slope
 subplot(2,4,3)
 hold on
-% bar(1,mean(mean(st_slopes(:,1:2),2)),'FaceColor','k','EdgeColor','none');
-% bar(2,mean(mean(st_slopes(:,3:4),2)),'FaceColor','r','EdgeColor','none');
-% wse([mean(st_slopes(:,1:2),2) mean(st_slopes(:,3:4),2)],1); 
-% ylim([0.05 .09])
 indata = [mean(st_slopes(:,1:2),2) mean(st_slopes(:,3:4),2)];
 wsplot(indata,mc,cols)
 diff = mean(mean(st_slopes(:,1:2),2) - mean(st_slopes(:,3:4),2)); %the observed value
