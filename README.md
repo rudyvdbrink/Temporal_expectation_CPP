@@ -5,7 +5,7 @@ This package includes the following:
 - The behavioral task (programmed in matlab)
 - Subject-level data (behavior and EEG)
 - Code to reproduce the figures and run statistical analyses of the data
-- Example code to run fitting of the CPP (see code Figure 2)
+- Code to run fitting of the CPP (see code Figure 2)and hDDM (see code Figure 3)
 
 All code is commented with information about the relevant data files and variables.
 
@@ -14,3 +14,4 @@ Dependencies:
 - Statistics toolbox (https://www.mathworks.com/products/statistics.html)
 - Psychtoolbox (http://psychtoolbox.org/)
 - R statistics (https://www.r-project.org/)
+- hDDM toolbox for python (http://ski.clps.brown.edu/hddm_docs/)
