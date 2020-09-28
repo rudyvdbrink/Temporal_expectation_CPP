@@ -346,3 +346,9 @@ title([{'Effect of difficulty'} {['on slope p=' num2str(p)]} {['CI = ' num2str(r
 set(gca,'tickdir','out','xtick',1:2,'xticklabel',{'Easy', 'Difficult'})
 box off
 ylabel('Slope (\muV / m^2 / T_s)')
+
+%% correlate single-trial onset and trial average onset
+
+[r, p] = corr(mean(st_onsets,2),mean(ta_onsets,2));
+disp(['Correlation between trial average onset and single trial onset: r = ' num2str(r) ', p = ' num2str(p) ])
+
