@@ -51,7 +51,7 @@ set(gca,'fontsize',18)
 
 %% make topographical plot
 subplot(2,2,2)
-topoplot(topo_CPP,chanlocs(1:64),'style','map');
+topoplot(topo_cpp,chanlocs(1:64),'style','map');
 set(gca,'clim',[-30 30])
 
 set(gcf,'color','w')
