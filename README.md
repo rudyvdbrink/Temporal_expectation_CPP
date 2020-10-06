@@ -1,5 +1,5 @@
 # Temporal expectation CPP
-Data and code for van den Brink et al (2019)
+Data and code for van den Brink, Murphy, Desender, de Ru & Niewenhuis (2019) Temporal expectation hastens decision onset but does not affect evidence quality. The Journal of Neuroscience.
 
 This package includes the following:
 - The behavioral task (programmed in matlab)
