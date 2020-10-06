@@ -5,7 +5,7 @@ This package includes the following:
 - The behavioral task (programmed in matlab)
 - Subject-level data (behavior and EEG)
 - Code to reproduce the figures and run statistical analyses of the data
-- Code to run fitting of the CPP (see code Figure 2)and hDDM (see code Figure 3)
+- Code to run fitting of the CPP (see code Figure 2) and hDDM (see code Figure 3)
 
 All code is commented with information about the relevant data files and variables.
 
